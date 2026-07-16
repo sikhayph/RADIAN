@@ -77,4 +77,4 @@
 | Role          | Name                         | GitHub Handle       | Sign-off |
 |---------------|------------------------------|---------------------|----------|
 | Firmware Lead | Henry Gabriel Buban (Sikhay) | @sikhayprs-gif      | ⬜        |
-| App Lead      | (Valiger lead)               | @___________        | ⬜        |
+| App Lead      | (Valiger lead)               | @valiger            | ⬜        |
