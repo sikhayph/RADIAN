@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'app_theme.dart';
+import 'screens/scan_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,7 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       name: 'scan',
-      builder: (context, state) => const ScanPlaceholder(),
+      builder: (context, state) => const ScanScreen(),
     ),
     GoRoute(
       path: '/home',
@@ -86,29 +87,8 @@ class RadianApp extends ConsumerWidget {
 }
 
 // ── Placeholder Screens ───────────────────────────────────────────────────────
-// These are replaced by Valiger with real screen implementations.
-// Do not delete — they keep flutter run working until screens are built.
-
-class ScanPlaceholder extends StatelessWidget {
-  const ScanPlaceholder({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('RADIAN — Scan')),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.bluetooth_searching, size: 64),
-            SizedBox(height: 16),
-            Text('Scan screen — Valiger to implement'),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// Replaced one by one as real screens are built.
+// Do not delete until the corresponding real screen is wired in.
 
 class HomePlaceholder extends StatelessWidget {
   const HomePlaceholder({super.key});
@@ -117,7 +97,7 @@ class HomePlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('RADIAN — Home')),
-      body: const Center(child: Text('Home screen — Valiger to implement')),
+      body: const Center(child: Text('Home screen — coming soon')),
     );
   }
 }
@@ -130,7 +110,7 @@ class ModePlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('RADIAN — Mode $mode')),
-      body: Center(child: Text('Mode $mode screen — Valiger to implement')),
+      body: Center(child: Text('Mode $mode screen — coming soon')),
     );
   }
 }
@@ -142,7 +122,7 @@ class SettingsPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('RADIAN — Settings')),
-      body: const Center(child: Text('Settings screen — Valiger to implement')),
+      body: const Center(child: Text('Settings screen — coming soon')),
     );
   }
 }
