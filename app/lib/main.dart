@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'app_theme.dart';
 import 'screens/scan_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,8 +39,7 @@ final _router = GoRouter(
     GoRoute(
       path: '/home',
       name: 'home',
-      builder: (context, state) => const HomePlaceholder(),
-    ),
+      builder: (context, state) => const HomeScreen(),    ),
     GoRoute(
       path: '/mode/1',
       name: 'mode1',
