@@ -11,6 +11,7 @@ import 'app_theme.dart';
 import 'screens/scan_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/mode1_screen.dart';
 
 
 void main() {
@@ -45,12 +46,11 @@ final _router = GoRouter(
     GoRoute(
       path: '/mode/1',
       name: 'mode1',
-      builder: (context, state) => const ModePlaceholder(mode: 1),
-    ),
+      builder: (context, state) => const Mode1Screen(),    ),
     GoRoute(
       path: '/mode/2',
       name: 'mode2',
-      builder: (context, state) => const ModePlaceholder(mode: 2),
+      builder: (context, state) => const Mode2Screen(),
     ),
     GoRoute(
       path: '/mode/3',
