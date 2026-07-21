@@ -10,6 +10,8 @@ import 'package:go_router/go_router.dart';
 import 'app_theme.dart';
 import 'screens/scan_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/settings_screen.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,8 +65,7 @@ final _router = GoRouter(
     GoRoute(
       path: '/settings',
       name: 'settings',
-      builder: (context, state) => const SettingsPlaceholder(),
-    ),
+      builder: (context, state) => const SettingsScreen(),    ),
   ],
 );
 
