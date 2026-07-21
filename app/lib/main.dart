@@ -7,22 +7,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'app_theme.dart';
+import 'providers/providers.dart';
+import 'screens/mode1_screen.dart';
 
-void main() {
+// ─────────────────────────────────────────────────────────────────────────────
+// Backwards-compat shim: Sikhay's main.dart declared themeProvider as a
+// StateProvider<RadianThemeMode>. We now use themeNotifierProvider from
+// providers/theme_provider.dart. This alias keeps any code that still
+// references themeProvider compiling without changes.
+// ─────────────────────────────────────────────────────────────────────────────
+final themeProvider = themeNotifierProvider;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   runApp(
     const ProviderScope(
       child: RadianApp(),
     ),
   );
 }
-
-// ── Theme Provider ────────────────────────────────────────────────────────────
-
-final themeProvider = StateProvider<RadianThemeMode>(
-  (ref) => RadianThemeMode.obsidian,
-);
 
 // ── Router ────────────────────────────────────────────────────────────────────
 
@@ -42,7 +48,8 @@ final _router = GoRouter(
     GoRoute(
       path: '/mode/1',
       name: 'mode1',
-      builder: (context, state) => const ModePlaceholder(mode: 1),
+      // ── Real Mode 1 screen wired in ──
+      builder: (context, state) => const Mode1Screen(),
     ),
     GoRoute(
       path: '/mode/2',
@@ -74,7 +81,7 @@ class RadianApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeProvider);
+    final themeMode = ref.watch(themeNotifierProvider);
 
     return MaterialApp.router(
       title:        'RADIAN',
@@ -94,15 +101,23 @@ class ScanPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: const Text('RADIAN — Scan')),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.bluetooth_searching, size: 64),
-            SizedBox(height: 16),
-            Text('Scan screen — Valiger to implement'),
+            Icon(Icons.bluetooth_searching, size: 64,
+                color: theme.colorScheme.primary),
+            const SizedBox(height: 16),
+            Text('Scan screen — coming soon',
+                style: theme.textTheme.bodyLarge),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () => context.go('/mode/1'),
+              child: const Text('Preview Mode 1 →'),
+            ),
           ],
         ),
       ),
