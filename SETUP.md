@@ -500,8 +500,8 @@ Once every item in Section 7 is checked, both leads confirm below by committing 
 ```markdown
 | Role            | Name | GitHub Handle | Sign-off Date |
 |-----------------|------|---------------|---------------|
-| Firmware Lead   | Henry Gabriel Buban (Sikhay) | @gpjffei0fefi | ___________ |
-| App Lead        | (Valiger lead name)          | @___________  | ___________ |
+| Firmware Lead   | Henry Gabriel Buban (Sikhay) | @sikhayprs-gif| July 21, 2026 |
+| App Lead        | Rica Marie Victorio (Valiger)| @Valiger      | July 21, 2026 |
 ```
 
 **M0 is closed when both sign-offs are committed to `dev` and this file is merged to `main`.**
