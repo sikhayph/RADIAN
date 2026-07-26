@@ -14,7 +14,7 @@ import 'screens/settings_screen.dart';
 import 'screens/mode1_screen.dart';
 import 'screens/mode2_screen.dart';
 import 'screens/mode3_screen.dart';
-
+import 'screens/mode4_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,28 +44,33 @@ final _router = GoRouter(
     GoRoute(
       path: '/home',
       name: 'home',
-      builder: (context, state) => const HomeScreen(),    ),
+      builder: (context, state) => const HomeScreen(),    
+    ),
     GoRoute(
       path: '/mode/1',
       name: 'mode1',
-      builder: (context, state) => const Mode1Screen(),    ),
+      builder: (context, state) => const Mode1Screen(),    
+    ),
     GoRoute(
       path: '/mode/2',
       name: 'mode2',
-      builder: (context, state) => const Mode2Screen(),    ),
+      builder: (context, state) => const Mode2Screen(),    
+    ),
     GoRoute(
       path: '/mode/3',
       name: 'mode3',
-      builder: (context, state) => const Mode3Screen(),    ),
+      builder: (context, state) => const Mode3Screen(),    
+    ),
     GoRoute(
       path: '/mode/4',
       name: 'mode4',
-      builder: (context, state) => const ModePlaceholder(mode: 4),
+      builder: (context, state) => const Mode4Screen(),
     ),
     GoRoute(
       path: '/settings',
       name: 'settings',
-      builder: (context, state) => const SettingsScreen(),    ),
+      builder: (context, state) => const SettingsScreen(),    
+    ),
   ],
 );
 
