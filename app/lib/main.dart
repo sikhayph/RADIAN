@@ -7,7 +7,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'app_theme.dart';
+<<<<<<< HEAD
 import 'screens/scan_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/settings_screen.dart';
@@ -15,21 +17,28 @@ import 'screens/mode1_screen.dart';
 import 'screens/mode2_screen.dart';
 import 'screens/mode3_screen.dart';
 import 'screens/mode4_screen.dart';
+=======
+import 'providers/providers.dart';
+import 'screens/mode1_screen.dart';
+>>>>>>> 79c833885cfeeaa988166c63b63a1177a67278d9
 
-void main() {
+// ─────────────────────────────────────────────────────────────────────────────
+// Backwards-compat shim: Sikhay's main.dart declared themeProvider as a
+// StateProvider<RadianThemeMode>. We now use themeNotifierProvider from
+// providers/theme_provider.dart. This alias keeps any code that still
+// references themeProvider compiling without changes.
+// ─────────────────────────────────────────────────────────────────────────────
+final themeProvider = themeNotifierProvider;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   runApp(
     const ProviderScope(
       child: RadianApp(),
     ),
   );
 }
-
-// ── Theme Provider ────────────────────────────────────────────────────────────
-
-final themeProvider = StateProvider<RadianThemeMode>(
-  (ref) => RadianThemeMode.obsidian,
-);
 
 // ── Router ────────────────────────────────────────────────────────────────────
 
@@ -49,7 +58,12 @@ final _router = GoRouter(
     GoRoute(
       path: '/mode/1',
       name: 'mode1',
+<<<<<<< HEAD
       builder: (context, state) => const Mode1Screen(),    
+=======
+      // ── Real Mode 1 screen wired in ──
+      builder: (context, state) => const Mode1Screen(),
+>>>>>>> 79c833885cfeeaa988166c63b63a1177a67278d9
     ),
     GoRoute(
       path: '/mode/2',
@@ -81,7 +95,7 @@ class RadianApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeProvider);
+    final themeMode = ref.watch(themeNotifierProvider);
 
     return MaterialApp.router(
       title:        'RADIAN',
@@ -93,8 +107,42 @@ class RadianApp extends ConsumerWidget {
 }
 
 // ── Placeholder Screens ───────────────────────────────────────────────────────
+<<<<<<< HEAD
 // Replaced one by one as real screens are built.
 // Do not delete until the corresponding real screen is wired in.
+=======
+// These are replaced by Valiger with real screen implementations.
+// Do not delete — they keep flutter run working until screens are built.
+
+class ScanPlaceholder extends StatelessWidget {
+  const ScanPlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: AppBar(title: const Text('RADIAN — Scan')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.bluetooth_searching, size: 64,
+                color: theme.colorScheme.primary),
+            const SizedBox(height: 16),
+            Text('Scan screen — coming soon',
+                style: theme.textTheme.bodyLarge),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () => context.go('/mode/1'),
+              child: const Text('Preview Mode 1 →'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+>>>>>>> 79c833885cfeeaa988166c63b63a1177a67278d9
 
 class HomePlaceholder extends StatelessWidget {
   const HomePlaceholder({super.key});
