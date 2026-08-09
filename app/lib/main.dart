@@ -11,7 +11,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'app_theme.dart';
 import 'providers/providers.dart';
 import 'screens/mode1_screen.dart';
-
+import 'screens/mode2_screen.dart';
+import 'screens/mode3_screen.dart';
+import 'screens/mode4_screen.dart';
 // ─────────────────────────────────────────────────────────────────────────────
 // Backwards-compat shim: Sikhay's main.dart declared themeProvider as a
 // StateProvider<RadianThemeMode>. We now use themeNotifierProvider from
@@ -54,17 +56,17 @@ final _router = GoRouter(
     GoRoute(
       path: '/mode/2',
       name: 'mode2',
-      builder: (context, state) => const ModePlaceholder(mode: 2),
+      builder: (context, state) => const Mode2Screen(),
     ),
     GoRoute(
       path: '/mode/3',
       name: 'mode3',
-      builder: (context, state) => const ModePlaceholder(mode: 3),
+      builder: (context, state) => const Mode3Screen(),
     ),
     GoRoute(
       path: '/mode/4',
       name: 'mode4',
-      builder: (context, state) => const ModePlaceholder(mode: 4),
+      builder: (context, state) => const Mode4Screen(),
     ),
     GoRoute(
       path: '/settings',

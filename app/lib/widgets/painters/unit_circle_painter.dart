@@ -107,7 +107,7 @@ class UnitCirclePainter extends CustomPainter {
     for (final (text, offset) in labels) {
       _drawText(canvas, text, center + offset, quadrantStyle, TextAlign.center);
     }
-    _ = axisPaint; // suppress unused warning
+    // axisPaint unused
   }
 
   void _drawCircle(Canvas canvas, Offset center, double radius) {

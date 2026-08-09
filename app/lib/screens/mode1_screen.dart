@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app_theme.dart';
 import '../providers/providers.dart';
 import '../ble/radian_packet.dart';
+import '../ble/ble_manager.dart';
 import '../widgets/painters/unit_circle_painter.dart';
 
 class Mode1Screen extends ConsumerWidget {
