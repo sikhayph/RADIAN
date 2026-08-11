@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// mode1_screen.dart
-// Mode 1 — Degree / Radian Conversion live visualizer
+// mode2_screen.dart
+// Mode 2 — Vector Addition live visualizer
 // Sikhay and Valiger Collaboration
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -9,30 +9,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../providers/packet_provider.dart';
 import '../providers/scan_provider.dart';
-import '../widgets/painters/unit_circle_painter.dart';
+import '../widgets/painters/vector_diagram_painter.dart';
 import '../app_theme.dart';
 import '../ble/ble_manager.dart';
 
-class Mode1Screen extends ConsumerWidget {
-  const Mode1Screen({super.key});
+class Mode2Screen extends ConsumerWidget {
+  const Mode2Screen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final packet     = ref.watch(lastPacketProvider);
-    final bleState   = ref.watch(bleStateProvider);
-    final theme      = Theme.of(context);
-    final canvas     = theme.extension<RadianCanvasTheme>()!;
-    final isWide     = MediaQuery.of(context).size.width > 900;
+    final packet   = ref.watch(lastPacketProvider);
+    final bleState = ref.watch(bleStateProvider);
+    final theme    = Theme.of(context);
+    final canvas   = theme.extension<RadianCanvasTheme>()!;
+    final isWide   = MediaQuery.of(context).size.width > 900;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Degree / Radian'),
+        title: const Text('Vector Addition'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.go('/home'),
         ),
         actions: [
-          // BLE badge
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: _BleBadge(state: bleState),
@@ -64,19 +63,14 @@ class _WideLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Left panel — data readout
         SizedBox(
           width: 300,
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: _DataPanel(packet: packet, theme: theme),
+            child: _DataPanel(packet: packet, canvas: canvas, theme: theme),
           ),
         ),
-        VerticalDivider(
-          width: 1,
-          color: theme.colorScheme.outline,
-        ),
-        // Right panel — canvas
+        VerticalDivider(width: 1, color: theme.colorScheme.outline),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -105,7 +99,6 @@ class _NarrowLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Canvas takes upper 60%
         Expanded(
           flex: 6,
           child: Padding(
@@ -113,12 +106,11 @@ class _NarrowLayout extends StatelessWidget {
             child: _Canvas(packet: packet, canvas: canvas),
           ),
         ),
-        // Data panel bottom 40%
         Expanded(
           flex: 4,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: _DataPanel(packet: packet, theme: theme),
+            child: _DataPanel(packet: packet, canvas: canvas, theme: theme),
           ),
         ),
       ],
@@ -138,10 +130,11 @@ class _Canvas extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: CustomPaint(
-        painter: UnitCirclePainter(
-          degrees:    packet.a1,
-          cosVal:     packet.val.rx,
-          sinVal:     packet.val.ry,
+        painter: VectorDiagramPainter(
+          a1:          packet.a1,
+          a2:          packet.a2,
+          rmag:        packet.val.rmag,
+          rang:        packet.val.rang,
           canvasTheme: canvas,
         ),
         child: const SizedBox.expand(),
@@ -154,48 +147,92 @@ class _Canvas extends StatelessWidget {
 
 class _DataPanel extends StatelessWidget {
   final dynamic packet;
+  final RadianCanvasTheme canvas;
   final ThemeData theme;
 
-  const _DataPanel({required this.packet, required this.theme});
+  const _DataPanel({
+    required this.packet,
+    required this.canvas,
+    required this.theme,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final degrees = packet.a1 as double;
-    final radians = packet.val.rad as double;
-    final cosVal  = packet.val.rx  as double;
-    final sinVal  = packet.val.ry  as double;
+    final a1   = packet.a1       as double;
+    final a2   = packet.a2       as double;
+    final rmag = packet.val.rmag as double;
+    final rang = packet.val.rang as double;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Primary readouts
-        _BigReadout(
-          label: 'Degrees',
-          value: '${degrees.toStringAsFixed(1)}°',
-          theme: theme,
-        ),
-        const SizedBox(height: 8),
-        _BigReadout(
-          label: 'Radians',
-          value: radians.toStringAsFixed(4),
-          theme: theme,
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Resultant — the headline numbers
+          _BigReadout(
+            label: 'Resultant magnitude',
+            value: '|R| = ${rmag.toStringAsFixed(2)}',
+            theme: theme,
+          ),
+          const SizedBox(height: 8),
+          _BigReadout(
+            label: 'Resultant angle',
+            value: '∠ ${rang.toStringAsFixed(1)}°',
+            theme: theme,
+          ),
 
-        const Divider(height: 32),
+          const Divider(height: 32),
 
-        // Coordinate readouts
-        Text('Coordinates', style: theme.textTheme.titleMedium),
-        const SizedBox(height: 12),
+          // Input vectors, color-keyed to the canvas
+          Text('Input vectors', style: theme.textTheme.titleMedium),
+          const SizedBox(height: 12),
 
-        _CoordRow('cos θ', cosVal.toStringAsFixed(4), theme),
-        const SizedBox(height: 8),
-        _CoordRow('sin θ', sinVal.toStringAsFixed(4), theme),
+          _VectorRow(
+            label:  'v1 — Arm 1',
+            value:  '${a1.toStringAsFixed(1)}°',
+            color:  canvas.arm1Color,
+            theme:  theme,
+          ),
+          const SizedBox(height: 8),
+          _VectorRow(
+            label:  'v2 — Arm 2',
+            value:  a2 == 0.0 ? 'not detected' : '${a2.toStringAsFixed(1)}°',
+            color:  canvas.arm2Color,
+            theme:  theme,
+          ),
+          const SizedBox(height: 8),
+          _VectorRow(
+            label:  'R — Resultant',
+            value:  '${rmag.toStringAsFixed(2)} @ ${rang.toStringAsFixed(1)}°',
+            color:  canvas.resultantColor,
+            theme:  theme,
+          ),
 
-        const Divider(height: 32),
+          const Divider(height: 32),
 
-        // π-fraction hint
-        _PiFractionHint(degrees: degrees, theme: theme),
-      ],
+          // Formula reference card
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color:        theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(8),
+              border:       Border.all(color: theme.colorScheme.outline),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Formula', style: theme.textTheme.labelSmall),
+                const SizedBox(height: 6),
+                Text('R = v1 + v2',
+                    style: theme.textTheme.displayMedium),
+                const SizedBox(height: 4),
+                Text('|R| = √(Rx² + Ry²)',
+                    style: theme.textTheme.displayMedium),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -224,88 +261,38 @@ class _BigReadout extends StatelessWidget {
   }
 }
 
-// ── Coordinate Row ────────────────────────────────────────────────────────────
+// ── Vector Row ────────────────────────────────────────────────────────────────
 
-class _CoordRow extends StatelessWidget {
+class _VectorRow extends StatelessWidget {
   final String    label;
   final String    value;
+  final Color     color;
   final ThemeData theme;
-  const _CoordRow(this.label, this.value, this.theme);
+
+  const _VectorRow({
+    required this.label,
+    required this.value,
+    required this.color,
+    required this.theme,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: theme.textTheme.bodyMedium),
-        Text(value,  style: theme.textTheme.displayMedium),
-      ],
-    );
-  }
-}
-
-// ── π-Fraction Hint ───────────────────────────────────────────────────────────
-// Shows the common radian fraction for 16 key angles
-
-class _PiFractionHint extends StatelessWidget {
-  final double    degrees;
-  final ThemeData theme;
-  const _PiFractionHint({required this.degrees, required this.theme});
-
-  static const Map<double, String> _hints = {
-    0.0:   '0',
-    30.0:  'π/6',
-    45.0:  'π/4',
-    60.0:  'π/3',
-    90.0:  'π/2',
-    120.0: '2π/3',
-    135.0: '3π/4',
-    150.0: '5π/6',
-    180.0: 'π',
-    210.0: '7π/6',
-    225.0: '5π/4',
-    240.0: '4π/3',
-    270.0: '3π/2',
-    300.0: '5π/3',
-    315.0: '7π/4',
-    330.0: '11π/6',
-    360.0: '2π',
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    // Find nearest key angle within ±2°
-    String? hint;
-    for (final entry in _hints.entries) {
-      if ((degrees - entry.key).abs() < 2.0) {
-        hint = entry.value;
-        break;
-      }
-    }
-
-    if (hint == null) return const SizedBox.shrink();
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color:        theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(8),
-        border:       Border.all(color: theme.colorScheme.outline),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.lightbulb_outline,
-              size: 16, color: theme.colorScheme.primary),
-          const SizedBox(width: 8),
-          Text(
-            'This angle = $hint',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.primary,
-            ),
+        Container(
+          width: 12, height: 12,
+          decoration: BoxDecoration(
+            color:        color,
+            borderRadius: BorderRadius.circular(3),
           ),
-        ],
-      ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(label, style: theme.textTheme.bodyMedium),
+        ),
+        Text(value, style: theme.textTheme.displayMedium),
+      ],
     );
   }
 }
@@ -341,8 +328,7 @@ class _BleBadge extends StatelessWidget {
       children: [
         Container(
           width: 8, height: 8,
-          decoration: BoxDecoration(
-              color: color, shape: BoxShape.circle),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 6),
         Text(label, style: theme.textTheme.labelSmall),

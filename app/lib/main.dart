@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+<<<<<<< HEAD
 import 'package:hive_flutter/hive_flutter.dart';
 import 'app_theme.dart';
 import 'providers/providers.dart';
@@ -23,6 +24,19 @@ final themeProvider = themeNotifierProvider;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+=======
+import 'app_theme.dart';
+import 'screens/scan_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/settings_screen.dart';
+import 'screens/mode1_screen.dart';
+import 'screens/mode2_screen.dart';
+import 'screens/mode3_screen.dart';
+import 'screens/mode4_screen.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+>>>>>>> feature/app-ble-manager
   runApp(
     const ProviderScope(
       child: RadianApp(),
@@ -30,6 +44,15 @@ void main() async {
   );
 }
 
+<<<<<<< HEAD
+=======
+// ── Theme Provider ────────────────────────────────────────────────────────────
+
+final themeProvider = StateProvider<RadianThemeMode>(
+  (ref) => RadianThemeMode.obsidian,
+);
+
+>>>>>>> feature/app-ble-manager
 // ── Router ────────────────────────────────────────────────────────────────────
 
 final _router = GoRouter(
@@ -38,38 +61,66 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       name: 'scan',
+<<<<<<< HEAD
       builder: (context, state) => const ScanPlaceholder(),
+=======
+      builder: (context, state) => const ScanScreen(),
+>>>>>>> feature/app-ble-manager
     ),
     GoRoute(
       path: '/home',
       name: 'home',
+<<<<<<< HEAD
       builder: (context, state) => const HomePlaceholder(),
+=======
+      builder: (context, state) => const HomeScreen(),    
+>>>>>>> feature/app-ble-manager
     ),
     GoRoute(
       path: '/mode/1',
       name: 'mode1',
+<<<<<<< HEAD
       // ── Real Mode 1 screen wired in ──
       builder: (context, state) => const Mode1Screen(),
+=======
+      builder: (context, state) => const Mode1Screen(),    
+>>>>>>> feature/app-ble-manager
     ),
     GoRoute(
       path: '/mode/2',
       name: 'mode2',
+<<<<<<< HEAD
       builder: (context, state) => const ModePlaceholder(mode: 2),
+=======
+      builder: (context, state) => const Mode2Screen(),    
+>>>>>>> feature/app-ble-manager
     ),
     GoRoute(
       path: '/mode/3',
       name: 'mode3',
+<<<<<<< HEAD
       builder: (context, state) => const ModePlaceholder(mode: 3),
+=======
+      builder: (context, state) => const Mode3Screen(),    
+>>>>>>> feature/app-ble-manager
     ),
     GoRoute(
       path: '/mode/4',
       name: 'mode4',
+<<<<<<< HEAD
       builder: (context, state) => const ModePlaceholder(mode: 4),
+=======
+      builder: (context, state) => const Mode4Screen(),
+>>>>>>> feature/app-ble-manager
     ),
     GoRoute(
       path: '/settings',
       name: 'settings',
+<<<<<<< HEAD
       builder: (context, state) => const SettingsPlaceholder(),
+=======
+      builder: (context, state) => const SettingsScreen(),    
+>>>>>>> feature/app-ble-manager
     ),
   ],
 );
@@ -81,7 +132,11 @@ class RadianApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+<<<<<<< HEAD
     final themeMode = ref.watch(themeNotifierProvider);
+=======
+    final themeMode = ref.watch(themeProvider);
+>>>>>>> feature/app-ble-manager
 
     return MaterialApp.router(
       title:        'RADIAN',
@@ -90,6 +145,7 @@ class RadianApp extends ConsumerWidget {
       routerConfig: _router,
     );
   }
+<<<<<<< HEAD
 }
 
 // ── Placeholder Screens ───────────────────────────────────────────────────────
@@ -160,4 +216,6 @@ class SettingsPlaceholder extends StatelessWidget {
       body: const Center(child: Text('Settings screen — Valiger to implement')),
     );
   }
+=======
+>>>>>>> feature/app-ble-manager
 }
