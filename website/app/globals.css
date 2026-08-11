@@ -17,6 +17,8 @@
   --resultant: #E3B341;
   --text:      #E6EDF3;
   --muted:     #8B949E;
+  /* Translucent surface used behind the glassmorphic navbar once scrolled */
+  --surface-glass: rgba(22, 27, 34, 0.72);
 }
 
 [data-theme="chalk"] {
@@ -30,6 +32,7 @@
   --resultant: #9A6700;
   --text:      #1F2328;
   --muted:     #656D76;
+  --surface-glass: rgba(240, 242, 245, 0.72);
 }
 
 [data-theme="sikhay"] {
@@ -43,6 +46,7 @@
   --resultant: #E0E0E0;
   --text:      #FFFFFF;
   --muted:     #888888;
+  --surface-glass: rgba(20, 20, 20, 0.72);
 }
 
 body {
