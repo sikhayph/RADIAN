@@ -6,8 +6,12 @@
 
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'radian_packet.dart';
+
+// flutter_blue_plus is not supported on web; only import on non-web.
+// ignore: uri_does_not_exist
+import 'package:flutter_blue_plus/flutter_blue_plus.dart'
+    if (dart.library.html) 'ble_noop.dart';
 
 // ── BLE UUIDs — must match firmware/include/config.h ─────────────────────────
 const String kServiceUUID = '4a2b0001-0000-1000-8000-00805f9b34fb';
@@ -24,37 +28,30 @@ class BLEManager {
   factory BLEManager() => _instance;
   BLEManager._internal();
 
-  // ── State ──────────────────────────────────────────────────────────────────
-  BluetoothDevice?        _device;
-  BluetoothCharacteristic? _characteristic;
-  StreamSubscription?     _notifySubscription;
-  StreamSubscription?     _connectionSubscription;
-
+  // ── Internal state ─────────────────────────────────────────────────────────
   final _stateController  = StreamController<BLEState>.broadcast();
   final _packetController = StreamController<RadianPacket>.broadcast();
 
+  BluetoothDevice?         _device;
+  BluetoothCharacteristic? _characteristic;
+  StreamSubscription<List<int>>?                _notifySubscription;
+  StreamSubscription<BluetoothConnectionState>? _connectionSubscription;
+
   BLEState _currentState = BLEState.idle;
 
-  // ── Public Streams ─────────────────────────────────────────────────────────
-
-  /// Stream of BLE connection state changes
-  Stream<BLEState> get stateStream => _stateController.stream;
-
-  /// Stream of parsed RadianPacket objects from BLE notify
+  // ── Public streams ─────────────────────────────────────────────────────────
+  Stream<BLEState>     get stateStream  => _stateController.stream;
   Stream<RadianPacket> get packetStream => _packetController.stream;
 
-  /// Current connection state
-  BLEState get state => _currentState;
-
-  /// True if currently connected to a RADIAN device
-  bool get isConnected => _currentState == BLEState.connected;
+  BLEState get state       => _currentState;
+  bool     get isConnected => _currentState == BLEState.connected;
 
   // ── Scan ───────────────────────────────────────────────────────────────────
 
-  /// Scan for RADIAN devices — returns list of found devices
   Future<List<BluetoothDevice>> scan({
     Duration timeout = const Duration(seconds: 10),
   }) async {
+    if (kIsWeb) return [];
     _emit(BLEState.scanning);
     final found = <BluetoothDevice>[];
 
@@ -83,8 +80,8 @@ class BLEManager {
     return found;
   }
 
-  /// Stop an active scan
   Future<void> stopScan() async {
+    if (kIsWeb) return;
     await FlutterBluePlus.stopScan();
     if (_currentState == BLEState.scanning) {
       _emit(BLEState.idle);
@@ -93,8 +90,8 @@ class BLEManager {
 
   // ── Connect ────────────────────────────────────────────────────────────────
 
-  /// Connect to a RADIAN device and subscribe to notify
   Future<void> connect(BluetoothDevice device) async {
+    if (kIsWeb) return;
     if (_currentState == BLEState.connected) await disconnect();
     _emit(BLEState.connecting);
 
@@ -102,14 +99,12 @@ class BLEManager {
       await device.connect(timeout: const Duration(seconds: 10));
       _device = device;
 
-      // Monitor connection state
       _connectionSubscription = device.connectionState.listen((state) {
         if (state == BluetoothConnectionState.disconnected) {
           _onDisconnected();
         }
       });
 
-      // Discover services
       final services = await device.discoverServices();
       final service  = services.firstWhere(
         (s) => s.serviceUuid == Guid(kServiceUUID),
@@ -121,7 +116,6 @@ class BLEManager {
         orElse: () => throw Exception('RADIAN characteristic not found'),
       );
 
-      // Subscribe to notify
       await _characteristic!.setNotifyValue(true);
       _notifySubscription = _characteristic!.onValueReceived.listen(_onNotify);
 
@@ -139,7 +133,7 @@ class BLEManager {
   Future<void> disconnect() async {
     await _notifySubscription?.cancel();
     await _connectionSubscription?.cancel();
-    await _device?.disconnect();
+    if (!kIsWeb) await _device?.disconnect();
     _device = null;
     _characteristic = null;
     _emit(BLEState.disconnected);
@@ -152,7 +146,6 @@ class BLEManager {
       final packet = RadianPacket.fromBytes(bytes);
       _packetController.add(packet);
     } catch (e) {
-      // Malformed packet — skip silently, hold previous state
       debugPrint('[BLEManager] Malformed packet: $e');
     }
   }

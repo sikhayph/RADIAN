@@ -49,12 +49,12 @@ class RotationMatrixPainter extends CustomPainter {
 
     final origPaint = Paint()
       ..color = canvasTheme.arm2Color.withOpacity(0.45)
-      ..strokeWidth = 3.0
+      ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round;
 
     final transPaint = Paint()
       ..color = canvasTheme.arm1Color
-      ..strokeWidth = 4.5
+      ..strokeWidth = 2.5
       ..strokeCap = StrokeCap.round;
 
     final arcPaint = Paint()
@@ -122,9 +122,7 @@ class RotationMatrixPainter extends CustomPainter {
     canvas.drawCircle(
         Offset(cx, cy), 5, Paint()..color = canvasTheme.canvasBorder);
 
-    // ── Tip glow on transformed ───────────────────────────────────────────────
-    canvas.drawCircle(vTrans, 9,
-        Paint()..color = canvasTheme.arm1Color.withOpacity(0.2));
+    // ── Tip on transformed ───────────────────────────────────────────────
     canvas.drawCircle(vTrans, 5,
         Paint()..color = canvasTheme.arm1Color);
 
@@ -158,7 +156,11 @@ class RotationMatrixPainter extends CustomPainter {
 
   void _drawArrow(
       Canvas canvas, Offset from, Offset to, Paint paint, double headSize) {
+
+
+    // Core line
     canvas.drawLine(from, to, paint);
+    
     final angle = atan2(to.dy - from.dy, to.dx - from.dx);
     _drawArrowHead(canvas, to, angle,
         Paint()..color = paint.color..style = PaintingStyle.fill, headSize);
@@ -180,6 +182,9 @@ class RotationMatrixPainter extends CustomPainter {
       ..lineTo(p1.dx, p1.dy)
       ..lineTo(p2.dx, p2.dy)
       ..close();
+      
+
+
     canvas.drawPath(path, paint..style = PaintingStyle.fill);
   }
 

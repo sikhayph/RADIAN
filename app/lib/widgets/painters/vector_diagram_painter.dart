@@ -54,17 +54,17 @@ class VectorDiagramPainter extends CustomPainter {
 
     final arm1Paint = Paint()
       ..color = canvasTheme.arm1Color
-      ..strokeWidth = 4.0
+      ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round;
 
     final arm2Paint = Paint()
       ..color = canvasTheme.arm2Color
-      ..strokeWidth = 4.0
+      ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round;
 
     final resultantPaint = Paint()
       ..color = canvasTheme.resultantColor
-      ..strokeWidth = 5.0
+      ..strokeWidth = 2.5
       ..strokeCap = StrokeCap.round;
 
     final parallelogramPaint = Paint()
@@ -152,6 +152,9 @@ class VectorDiagramPainter extends CustomPainter {
 
   void _drawArrow(
       Canvas canvas, Offset from, Offset to, Paint paint, double headSize) {
+
+
+    // Core line
     canvas.drawLine(from, to, paint);
 
     final angle = atan2(to.dy - from.dy, to.dx - from.dx);
@@ -174,6 +177,10 @@ class VectorDiagramPainter extends CustomPainter {
       ..lineTo(p1.dx, p1.dy)
       ..lineTo(p2.dx, p2.dy)
       ..close();
+
+
+
+    // Core head
     canvas.drawPath(headPath, headPaint);
   }
 

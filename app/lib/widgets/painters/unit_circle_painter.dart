@@ -172,9 +172,10 @@ class UnitCirclePainter extends CustomPainter {
       arcPaint,
     );
 
-    // Arc outline
+
+    // Arc outline core
     final arcStroke = Paint()
-      ..color = canvasTheme.arm1Color.withOpacity(0.6)
+      ..color = canvasTheme.arm1Color
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
     canvas.drawArc(
@@ -215,6 +216,8 @@ class UnitCirclePainter extends CustomPainter {
 
   void _drawArm(Canvas canvas, Offset center, double radius) {
     final tip = _unitToCanvas(cosVal, sinVal, center, radius);
+
+    // Arm core
     canvas.drawLine(
       center,
       tip,
@@ -224,14 +227,7 @@ class UnitCirclePainter extends CustomPainter {
 
   void _drawTip(Canvas canvas, Offset center, double radius) {
     final tip = _unitToCanvas(cosVal, sinVal, center, radius);
-    // Outer glow
-    canvas.drawCircle(
-      tip,
-      7,
-      Paint()
-        ..color = canvasTheme.arm1Color.withOpacity(0.25)
-        ..style  = PaintingStyle.fill,
-    );
+
     // Solid dot
     canvas.drawCircle(
       tip,
