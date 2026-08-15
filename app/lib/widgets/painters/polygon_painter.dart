@@ -6,7 +6,7 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../app_theme.dart';
+import '../../app_theme.dart';
 
 class PolygonPainter extends CustomPainter {
   final int    n;          // polygon sides (3–12)
@@ -82,6 +82,10 @@ class PolygonPainter extends CustomPainter {
     }
     polyPath.close();
     canvas.drawPath(polyPath, polyFillPaint);
+    
+
+    
+    // Polygon outline core
     canvas.drawPath(polyPath, polyPaint);
 
     // ── Radii (faint) ────────────────────────────────────────────────────────
@@ -95,6 +99,10 @@ class PolygonPainter extends CustomPainter {
         Rect.fromCircle(center: Offset(cx, cy), radius: r * 0.36);
     // Screen-space sweep: counter-clockwise in math = negative in canvas
     canvas.drawArc(centralRect, -a0, -step, true, centralFillPaint);
+    
+
+    
+    // Wedge outline core
     canvas.drawArc(centralRect, -a0, -step, false, centralPaint);
 
     // ── Interior angle arcs at each vertex ───────────────────────────────────
@@ -124,8 +132,8 @@ class PolygonPainter extends CustomPainter {
     for (int i = 0; i < n; i++) {
       final isCurrent = i == snappedIndex;
       if (isCurrent) {
-        canvas.drawCircle(vertices[i], 12,
-            Paint()..color = canvasTheme.arm1Color.withOpacity(0.2));
+
+        // Core dot
         canvas.drawCircle(vertices[i], 7, vertexPaint);
       } else {
         canvas.drawCircle(vertices[i], 4,

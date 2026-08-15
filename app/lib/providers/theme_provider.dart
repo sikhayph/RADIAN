@@ -10,8 +10,8 @@ import '../app_theme.dart';
 
 // ── Hive box constants ────────────────────────────────────────────────────────
 
-const _kBoxName   = 'radian_prefs';
-const _kThemeKey  = 'theme_mode';
+const _kBoxName  = 'radian_prefs';
+const _kThemeKey = 'theme_mode';
 
 // ── Theme notifier ────────────────────────────────────────────────────────────
 
@@ -25,7 +25,7 @@ class ThemeNotifier extends StateNotifier<RadianThemeMode> {
     await box.put(_kThemeKey, mode.name);
   }
 
-  /// Cycle through Obsidian → Chalk → Sikhay → Obsidian.
+  /// Cycle through available themes.
   Future<void> cycle() async {
     final next = RadianThemeMode.values[
       (state.index + 1) % RadianThemeMode.values.length
@@ -36,12 +36,10 @@ class ThemeNotifier extends StateNotifier<RadianThemeMode> {
 
 // ── Provider ──────────────────────────────────────────────────────────────────
 
-/// Reads the persisted theme from Hive on first access, defaults to Obsidian.
-/// Call [ThemeNotifier.setTheme] or [ThemeNotifier.cycle] to change the theme.
+/// Reads the persisted theme from Hive on first access, defaults to vernier.
 final themeNotifierProvider =
     StateNotifierProvider<ThemeNotifier, RadianThemeMode>((ref) {
-  // Synchronously read from Hive if box is already open
-  RadianThemeMode initial = RadianThemeMode.obsidian;
+  RadianThemeMode initial = RadianThemeMode.vernier;
   try {
     if (Hive.isBoxOpen(_kBoxName)) {
       final box   = Hive.box(_kBoxName);
@@ -49,7 +47,7 @@ final themeNotifierProvider =
       if (saved != null) {
         initial = RadianThemeMode.values.firstWhere(
           (m) => m.name == saved,
-          orElse: () => RadianThemeMode.obsidian,
+          orElse: () => RadianThemeMode.vernier,
         );
       }
     }
