@@ -56,8 +56,7 @@ function DocCard({ doc }: { doc: DocMeta }) {
     <Reveal delayClass={delay} className="h-full">
       <Link
         href={`/docs/${doc.slug}`}
-        className="group h-full rounded-2xl p-6 border border-[var(--border)] bg-[var(--surface)] flex flex-col gap-3 no-underline transition-all duration-500 ease-premium hover:-translate-y-1 block"
-        style={{ display: 'flex' }}
+        className="group h-full rounded-2xl p-6 border border-[var(--border)] bg-[var(--surface)] flex flex-col gap-3 no-underline transition-all duration-500 ease-premium hover:-translate-y-1"
       >
         {/* Badge row */}
         <div className="flex items-center gap-3">

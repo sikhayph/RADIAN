@@ -10,13 +10,13 @@ import type { Metadata } from 'next'
 import DemoClient from './DemoClient'
 
 export const metadata: Metadata = {
-  title: 'Demo — RADIAN',
+  title: 'Demo | RADIAN',
   description:
-    'Explore RADIAN\'s four interactive teaching modes — degree/radian conversion, vector addition, rotation matrices, and polygon angles — live in the browser.',
+    "Explore RADIAN's four interactive teaching modes — degree/radian conversion, vector addition, rotation matrices, and polygon angles — live in the browser.",
   openGraph: {
-    title: 'Demo — RADIAN',
+    title: 'Demo | RADIAN',
     description:
-      'Explore RADIAN\'s four interactive teaching modes live in the browser.',
+      "Explore RADIAN's four interactive teaching modes live in the browser.",
     type: 'website',
   },
 }

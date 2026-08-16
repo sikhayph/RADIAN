@@ -8,11 +8,11 @@ import type { Metadata } from 'next'
 import Reveal from '../../components/ui/Reveal'
 
 export const metadata: Metadata = {
-  title: 'About — RADIAN',
+  title: 'About | RADIAN',
   description:
     'The story behind RADIAN — a Sikhay and Valiger collaboration that began as ANGGULO at the Regional Mathematics Fair 2025 and evolved into an ESP32-powered math teaching device.',
   openGraph: {
-    title: 'About — RADIAN',
+    title: 'About | RADIAN',
     description:
       'The story behind RADIAN — a Sikhay and Valiger collaboration that began as ANGGULO at the Regional Mathematics Fair 2025.',
     type: 'website',
@@ -52,7 +52,7 @@ const tracks = [
 
 export default function AboutPage() {
   return (
-    <main className="pt-16">
+    <main className="min-h-screen pt-16">
 
       {/* ── Hero / intro ──────────────────────────────────────────────────── */}
       <section className="py-[120px]">

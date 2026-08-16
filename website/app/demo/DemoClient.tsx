@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // app/demo/DemoClient.tsx
-// Interactive demo shell — mode tab bar + placeholder content panel.
-// Real canvas visualizations are a future task; this is intentional scaffolding.
+// Interactive demo shell — mode tab bar + per-mode preview panel.
+// Canvas visualizations are planned for the v1 hardware release.
 // Sikhay and Valiger Collaboration
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -50,7 +50,7 @@ export default function DemoClient() {
   const mode = modes[activeMode]
 
   return (
-    <main className="pt-16">
+    <main className="min-h-screen pt-16">
 
       {/* ── Page heading ──────────────────────────────────────────────────── */}
       <section className="py-[120px]">
@@ -76,6 +76,7 @@ export default function DemoClient() {
                 <button
                   key={m.n}
                   onClick={() => setActiveMode(i)}
+                  aria-pressed={activeMode === i}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-all duration-300 ease-premium ${
                     activeMode === i
                       ? 'border-[var(--primary)] bg-[color-mix(in_srgb,var(--primary)_12%,transparent)] text-[var(--text)]'
@@ -93,9 +94,9 @@ export default function DemoClient() {
             </div>
           </Reveal>
 
-          {/* ── Placeholder content panel ────────────────────────────────── */}
+          {/* ── Mode preview panel ──────────────────────────────────────── */}
           <Reveal delayClass="delay-200">
-            <div className="rounded-2xl border-2 border-dashed border-[var(--border)] bg-[var(--surface)] p-12 flex flex-col items-center justify-center text-center min-h-[420px] transition-all duration-500 ease-premium">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-12 flex flex-col items-center justify-center text-center min-h-[420px] transition-all duration-500 ease-premium">
 
               {/* Mode badge */}
               <span
@@ -110,17 +111,13 @@ export default function DemoClient() {
               </h2>
 
               {/* Short description from mode metadata */}
-              <p className="text-[var(--muted)] text-sm mb-2 max-w-sm">
+              <p className="text-[var(--muted)] text-sm mb-6 max-w-sm leading-relaxed">
                 {mode.desc}
               </p>
 
-              <p className="text-[var(--muted)] text-sm mb-6 max-w-sm">
-                Interactive {mode.name} demo — under construction.
-              </p>
-
-              {/* Explicit placeholder badge */}
+              {/* Status label */}
               <span className="inline-flex items-center gap-2 text-xs font-mono px-3 py-1.5 rounded-full border border-[var(--border)] text-[var(--muted)]">
-                🚧 Coming soon
+                Canvas demo — available with v1 hardware release
               </span>
 
             </div>
