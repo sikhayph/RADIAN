@@ -42,7 +42,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme      = Theme.of(context);
-    final bleState   = ref.watch(bleStateProvider);
+    final bleState   = ref.watch(scanFlowStateProvider);
     final themeMode  = ref.watch(themeProvider);
 
     return Scaffold(

@@ -32,7 +32,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     final isScanning  = ref.watch(scanNotifierProvider);
-    final bleState    = ref.watch(bleStateProvider);
+    final bleState    = ref.watch(scanFlowStateProvider);
     final devices     = ref.watch(scanResultsProvider);
     final theme       = Theme.of(context);
 

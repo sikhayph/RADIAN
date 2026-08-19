@@ -18,7 +18,7 @@ final scanResultsProvider = StateProvider<List<BluetoothDevice>>(
 // ── BLE State ─────────────────────────────────────────────────────────────────
 
 /// Current BLE connection/scan state
-final bleStateProvider = StateProvider<BLEState>(
+final scanFlowStateProvider = StateProvider<BLEState>(
   (ref) => BLEState.idle,
 );
 
@@ -34,7 +34,7 @@ class ScanNotifier extends StateNotifier<bool> {
     if (state) return; // already scanning
     state = true;
 
-    _ref.read(bleStateProvider.notifier).state = BLEState.scanning;
+    _ref.read(scanFlowStateProvider.notifier).state = BLEState.scanning;
     _ref.read(scanResultsProvider.notifier).state = [];
 
     try {
@@ -42,9 +42,9 @@ class ScanNotifier extends StateNotifier<bool> {
         timeout: const Duration(seconds: 10),
       );
       _ref.read(scanResultsProvider.notifier).state = devices;
-      _ref.read(bleStateProvider.notifier).state = BLEState.idle;
+      _ref.read(scanFlowStateProvider.notifier).state = BLEState.idle;
     } catch (e) {
-      _ref.read(bleStateProvider.notifier).state = BLEState.error;
+      _ref.read(scanFlowStateProvider.notifier).state = BLEState.error;
     } finally {
       state = false;
     }
@@ -53,18 +53,18 @@ class ScanNotifier extends StateNotifier<bool> {
   /// Stop an active scan
   Future<void> stopScan() async {
     await BLEManager().stopScan();
-    _ref.read(bleStateProvider.notifier).state = BLEState.idle;
+    _ref.read(scanFlowStateProvider.notifier).state = BLEState.idle;
     state = false;
   }
 
   /// Connect to a selected device
   Future<void> connect(BluetoothDevice device) async {
-    _ref.read(bleStateProvider.notifier).state = BLEState.connecting;
+    _ref.read(scanFlowStateProvider.notifier).state = BLEState.connecting;
     try {
       await BLEManager().connect(device);
-      _ref.read(bleStateProvider.notifier).state = BLEState.connected;
+      _ref.read(scanFlowStateProvider.notifier).state = BLEState.connected;
     } catch (e) {
-      _ref.read(bleStateProvider.notifier).state = BLEState.error;
+      _ref.read(scanFlowStateProvider.notifier).state = BLEState.error;
     }
   }
 }
