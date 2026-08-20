@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/_next/static/css/0e235972c0e5e5c7.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="/_next/static/chunks/webpack-cb86a99cd2f791d1.js"/><script src="/_next/static/chunks/fd9d1056-4e1a26e2d413ba3c.js" async=""></script><script src="/_next/static/chunks/23-82d06da020413398.js" async=""></script><script src="/_next/static/chunks/main-app-a11e3d9a22e8bb6e.js" async=""></script><script src="/_next/static/chunks/231-c27e618569e042bc.js" async=""></script><script src="/_next/static/chunks/app/layout-b05e199ed9449032.js" async=""></script><script src="/_next/static/chunks/app/docs/%5Bslug%5D/page-8e13c7886f515bb3.js" async=""></script><title>RADIAN UI/UX Specification | RADIAN</title><meta name="description" content="Version: 1.0 | Status: Locked for v1 — changes require both leads | Sikhay and Valiger Collaboration"/><meta property="og:title" content="RADIAN UI/UX Specification | RADIAN"/><meta property="og:description" content="Version: 1.0 | Status: Locked for v1 — changes require both leads | Sikhay and Valiger Collaboration"/><meta property="og:type" content="article"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="RADIAN — Rotary Angular Display with Intuitive Angle Notation"/><meta name="twitter:description" content="An ESP32-powered educational device that teaches abstract mathematics through physical rotation. A Sikhay and Valiger collaboration."/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body><nav class="fixed top-0 left-0 right-0 z-50 border-b transition-all duration-500 ease-premium bg-transparent backdrop-blur-0 border-transparent"><div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between"><a class="flex items-center gap-3 no-underline" href="/"><span class="text-xl font-bold tracking-tight text-[var(--text)]">RADIAN</span><span class="text-xs font-mono px-2 py-0.5 rounded-full border border-[var(--primary)] text-[var(--primary)] bg-transparent">v0.1</span></a><div class="hidden md:flex items-center gap-8"><a class="text-sm font-medium text-[var(--text)] no-underline transition-opacity duration-300 ease-premium hover:opacity-60" href="/">Home</a><a class="text-sm font-medium text-[var(--text)] no-underline transition-opacity duration-300 ease-premium hover:opacity-60" href="/demo">Demo</a><a class="text-sm font-medium text-[var(--text)] no-underline transition-opacity duration-300 ease-premium hover:opacity-60" href="/docs">Docs</a><a class="text-sm font-medium text-[var(--text)] no-underline transition-opacity duration-300 ease-premium hover:opacity-60" href="/about">About</a></div><div class="flex items-center gap-3"><div class="relative"><button class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] text-sm transition-opacity duration-300 ease-premium hover:opacity-80"><span class="w-3 h-3 rounded-full border border-[var(--border)] inline-block bg-[var(--dot)]" style="--dot:#0D1117"></span><span class="hidden sm:inline">Obsidian</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-[var(--muted)]"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></div><a href="https://github.com/sikhayph/RADIAN" target="_blank" rel="noopener noreferrer" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] text-sm no-underline transition-opacity duration-300 ease-premium hover:opacity-80"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>GitHub</a><button class="md:hidden p-2 rounded-lg text-[var(--text)]"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></button></div></div></nav><main class="min-h-screen pt-28 pb-24"><div class="max-w-3xl mx-auto px-6"><a class="inline-flex items-center gap-1.5 text-sm font-mono text-[var(--muted)] hover:text-[var(--primary)] transition-colors duration-200 no-underline mb-10 group" href="/docs"><span class="group-hover:-translate-x-0.5 transition-transform duration-200">←</span>All docs</a><article class="prose prose-invert prose-obsidian max-w-none"><h1>RADIAN UI/UX Specification</h1>
+<blockquote>
+<p><strong>Version:</strong> 1.0<br>
+<strong>Status:</strong> Locked for v1 — changes require both leads<br>
+<strong>Sikhay and Valiger Collaboration</strong><br>
+<strong>Date:</strong> July 17, 2026</p>
+</blockquote>
+<hr>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#1-layout-system">Layout System</a></li>
+<li><a href="#2-color-themes">Color Themes</a></li>
+<li><a href="#3-typography">Typography</a></li>
+<li><a href="#4-canvas-design--per-mode">Canvas Design — Per Mode</a></li>
+<li><a href="#5-component-guidelines">Component Guidelines</a></li>
+<li><a href="#6-accessibility">Accessibility</a></li>
+</ol>
+<hr>
+<h2>1. Layout System</h2>
+<p>RADIAN uses a <strong>responsive two-panel layout</strong> that adapts to screen width. The physical device is primarily used in a classroom — on a desk in front of a student (portrait phone) or projected on a display during a teacher demonstration (landscape tablet or widescreen).</p>
+<h3>Breakpoints</h3>
+<p>| Screen Width | Layout | Use Case |
+|---|---|---|
+| &#x3C; 600px | Single panel, stacked | Phone portrait — student personal use |
+| 600–900px | Side-by-side | Phone landscape / small tablet |
+| > 900px | Full two-panel with persistent sidebar | Tablet / widescreen / teacher demo |</p>
+<h3>Implementation</h3>
+<pre><code class="language-dart">LayoutBuilder(
+  builder: (context, constraints) {
+    if (constraints.maxWidth > 900) {
+      return WideLayout();     // persistent sidebar + full canvas
+    } else if (constraints.maxWidth > 600) {
+      return MediumLayout();   // side-by-side, no persistent sidebar
+    } else {
+      return NarrowLayout();   // stacked, full-width canvas
+    }
+  },
+)
+</code></pre>
+<h3>Panel Anatomy — Widescreen (> 900px)</h3>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│  AppBar — RADIAN · Mode Name · BLE status badge         │
+├──────────────────┬──────────────────────────────────────┤
+│  LEFT PANEL      │  RIGHT PANEL                         │
+│  (fixed 300px)   │  (flexible)                          │
+│                  │                                       │
+│  BLE badge       │  ┌─────────────────────────────────┐ │
+│  ─────────────   │  │                                 │ │
+│  Mode selector   │  │        CANVAS                   │ │
+│  [1][2][3][4]    │  │                                 │ │
+│  ─────────────   │  │   (unit circle / vector /       │ │
+│  Arm 1: 47.3°    │  │    matrix / polygon)            │ │
+│  Arm 2: 112.8°   │  │                                 │ │
+│  rad: 0.825      │  └─────────────────────────────────┘ │
+│  ─────────────   │                                       │
+│  cos θ: 0.682    │  Degree readout · Radian readout      │
+│  sin θ: 0.731    │                                       │
+└──────────────────┴──────────────────────────────────────┘
+</code></pre>
+<h3>Left Panel Contents (Widescreen)</h3>
+<ul>
+<li>BLE connection status and signal strength</li>
+<li>Mode selector — all four modes always visible as tappable tiles</li>
+<li>Live angle readout badges — Arm 1, Arm 2, computed value</li>
+<li>Polygon N stepper (Mode 4 only, shown contextually)</li>
+</ul>
+<h3>Right Panel Contents (Widescreen)</h3>
+<ul>
+<li>Full visualizer canvas — fills available space</li>
+<li>Angle value bar below the canvas (degree and radian, large monospace type)</li>
+</ul>
+<hr>
+<h2>2. Color Themes</h2>
+<p>Three themes are defined in <code>app/lib/app_theme.dart</code>. Access canvas-specific colors via:</p>
+<pre><code class="language-dart">final canvas = Theme.of(context).extension&#x3C;RadianCanvasTheme>()!;
+</code></pre>
+<h3>Theme 1 — Obsidian (Default Dark)</h3>
+<p>| Role | Color | Hex |
+|---|---|---|
+| Background | Deep navy-black | <code>#0D1117</code> |
+| Surface / panels | Dark slate | <code>#161B22</code> |
+| Border / divider | Subtle gray | <code>#30363D</code> |
+| Primary accent | Electric blue | <code>#58A6FF</code> |
+| Secondary accent | Soft teal | <code>#3DCFB8</code> |
+| Arm 1 | Vivid orange | <code>#F78166</code> |
+| Arm 2 | Lime green | <code>#7EE787</code> |
+| Resultant vector | Gold | <code>#E3B341</code> |
+| Text primary | Off-white | <code>#E6EDF3</code> |
+| Text muted | Cool gray | <code>#8B949E</code> |</p>
+<p><strong>When to use:</strong> Default. Best for extended classroom sessions and low-light environments.</p>
+<h3>Theme 2 — Chalk (Light / Classroom)</h3>
+<p>| Role | Color | Hex |
+|---|---|---|
+| Background | Warm white | <code>#FAFAFA</code> |
+| Surface / panels | Light gray | <code>#F0F2F5</code> |
+| Border / divider | Medium gray | <code>#D0D7DE</code> |
+| Primary accent | Deep blue | <code>#0969DA</code> |
+| Secondary accent | Dark teal | <code>#1A7F64</code> |
+| Arm 1 | Red-orange | <code>#CF222E</code> |
+| Arm 2 | Forest green | <code>#116329</code> |
+| Resultant vector | Dark gold | <code>#9A6700</code> |
+| Text primary | Near-black | <code>#1F2328</code> |
+| Text muted | Medium gray | <code>#656D76</code> |</p>
+<p><strong>When to use:</strong> Projected displays, bright classrooms, printable screenshots.</p>
+<h3>Theme 3 — Sikhay (Branded Dark)</h3>
+<p>| Role | Color | Hex |
+|---|---|---|
+| Background | Rich black | <code>#0A0A0A</code> |
+| Surface / panels | Dark charcoal | <code>#141414</code> |
+| Border / divider | Dark gray | <code>#2A2A2A</code> |
+| Arm 1 | Bright white | <code>#FFFFFF</code> |
+| Arm 2 | Light gray | <code>#AAAAAA</code> |
+| Resultant vector | Off-white | <code>#E0E0E0</code> |
+| Text primary | White | <code>#FFFFFF</code> |
+| Text muted | Gray | <code>#888888</code> |</p>
+<p><strong>When to use:</strong> Product demos, pitch presentations, investor showcases.</p>
+<hr>
+<h2>3. Typography</h2>
+<p>| Role | Font | Size | Weight | Notes |
+|---|---|---|---|---|
+| Mode name | Inter | 18px | SemiBold | AppBar and mode tile labels |
+| Live angle readout | JetBrains Mono | 32px | Bold | Numbers that update rapidly — fixed-width prevents layout jump |
+| Canvas labels | Inter | 12px | Regular | Angle tick labels, axis labels |
+| Matrix values | JetBrains Mono | 14px | Medium | 2×2 matrix in Mode 3 |
+| Body / settings | Inter | 14px | Regular | All prose, settings labels |
+| Section headers | Inter | 16px | Medium | Left panel section dividers |</p>
+<h3>Font Loading</h3>
+<p>Add to <code>pubspec.yaml</code>:</p>
+<pre><code class="language-yaml">flutter:
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf   weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf weight: 600
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-Regular.ttf
+        - asset: assets/fonts/JetBrainsMono-Medium.ttf  weight: 500
+        - asset: assets/fonts/JetBrainsMono-Bold.ttf    weight: 700
+</code></pre>
+<blockquote>
+<p>Download Inter from https://rsms.me/inter and JetBrains Mono from https://www.jetbrains.com/lp/mono — both are open source.</p>
+</blockquote>
+<hr>
+<h2>4. Canvas Design — Per Mode</h2>
+<h3>Global Canvas Rules</h3>
+<ul>
+<li>Canvas fills the right panel on widescreen or the lower 60% on mobile portrait</li>
+<li>Origin point always marked with a small filled circle — never implied</li>
+<li>All arms rendered as thick rounded lines (<code>strokeWidth: 4.0</code>) with an arrowhead at the tip</li>
+<li>Angle arc drawn from 0° to current angle — filled with arm color at 20% opacity</li>
+<li>Grid lines at 30° intervals — 10% opacity, never distracting</li>
+<li>Labels never overlap the arm — positioned at arc midpoint, offset outward by 16px</li>
+<li>All arm movements eased with <code>200ms</code> curve — <code>Curves.easeOut</code></li>
+<li>Canvas redraws triggered by BLE notify stream, not a fixed timer</li>
+</ul>
+<hr>
+<h3>Mode 1 — Unit Circle Canvas</h3>
+<p><strong>Layout:</strong></p>
+<pre><code>         sin θ ↑
+                │
+   ─────────────O─────────────  cos θ →
+               ╱│
+         arm  ╱ │
+             ╱  │
+    (cos θ, sin θ)
+</code></pre>
+<p><strong>Elements:</strong></p>
+<ul>
+<li>Full unit circle at radius = 80% of min(width, height) / 2</li>
+<li>Cardinal labels outside the ring: <code>0</code>, <code>π/2</code>, <code>π</code>, <code>3π/2</code></li>
+<li>Tick marks at 30°, 45°, 60° and their radian equivalents</li>
+<li>Arm from origin to (cos θ, sin θ) — color: Arm 1</li>
+<li>Dotted projection lines from arm tip to x-axis (cos) and y-axis (sin)</li>
+<li>Coordinate labels at projection endpoints — <code>cos θ = 0.682</code>, <code>sin θ = 0.731</code></li>
+<li>Bottom bar: <code>47.3°</code> and <code>0.825 rad</code> in large JetBrains Mono type</li>
+</ul>
+<hr>
+<h3>Mode 2 — Vector Addition Canvas</h3>
+<p><strong>Elements:</strong></p>
+<ul>
+<li>Arm 1 from origin — color: Arm 1</li>
+<li>Arm 2 from origin — color: Arm 2</li>
+<li>Resultant vector drawn tail-to-tip (arm 1 tip → arm 2 tip) — color: Resultant</li>
+<li>Dashed component lines projected to x and y axes for each arm</li>
+<li>Faint parallelogram outline connecting all four tips</li>
+<li>Bottom bar: <code>|R| = 1.41   ∠ = 80.05°</code></li>
+</ul>
+<hr>
+<h3>Mode 3 — Rotation Matrix Canvas</h3>
+<p><strong>Elements:</strong></p>
+<ul>
+<li>2×2 rotation matrix displayed top-left in JetBrains Mono, values updating live:
+<pre><code>R(θ) = [ cos θ  -sin θ ]
+        [ sin θ   cos θ ]
+</code></pre>
+</li>
+<li>Original arm 2 vector in muted color</li>
+<li>Transformed arm 2 vector in bright color</li>
+<li>Arc drawn between original and transformed showing rotation angle θ</li>
+<li>Optional ghost trail (last 5 positions at decreasing opacity) — toggled in Settings</li>
+</ul>
+<hr>
+<h3>Mode 4 — Polygon / Central Angle Canvas</h3>
+<p><strong>Elements:</strong></p>
+<ul>
+<li>Regular N-gon centered on canvas, inscribed in a faint circle</li>
+<li>Current vertex highlighted with filled dot + subtle glow</li>
+<li>All interior angles shown as small arcs at each vertex</li>
+<li>Central angle arc drawn from center to current vertex</li>
+<li>N stepper (+/−) in top-right corner of canvas</li>
+<li>Bottom bar three-column layout:
+<pre><code>Interior: 120°    Exterior: 60°    Central: 60°
+</code></pre>
+</li>
+<li>Polygon label centered above canvas: <code>Regular Hexagon (N = 6)</code></li>
+</ul>
+<hr>
+<h2>5. Component Guidelines</h2>
+<h3>BLE Status Badge</h3>
+<ul>
+<li>Connected: filled green dot + device name</li>
+<li>Scanning: pulsing gray dot + "Scanning..."</li>
+<li>Disconnected: empty red dot + "Not connected"</li>
+<li>Always visible in AppBar trailing position</li>
+</ul>
+<h3>Mode Selector Tiles</h3>
+<ul>
+<li>Four tiles always visible on widescreen left panel</li>
+<li>On mobile: bottom navigation bar with four icons</li>
+<li>Active mode: filled background using primary color</li>
+<li>Inactive: surface color with muted label</li>
+</ul>
+<h3>Angle Readout Badge</h3>
+<ul>
+<li>Large JetBrains Mono type — 32px bold</li>
+<li>Degree and radian shown simultaneously, separated by a divider</li>
+<li>Updates at 20Hz — smooth, no flicker</li>
+</ul>
+<h3>Settings Screen</h3>
+<ul>
+<li>Theme selector: three preview tiles (Obsidian / Chalk / Sikhay)</li>
+<li>Unit preference toggle: Degrees / Radians</li>
+<li>Ghost trail toggle (Mode 3 only)</li>
+<li>Device nickname field</li>
+<li>Disconnect button</li>
+</ul>
+<hr>
+<h2>6. Accessibility</h2>
+<ul>
+<li>All color pairs meet WCAG AA contrast ratio (4.5:1 minimum for text)</li>
+<li>Arm colors are distinct under deuteranopia — Arm 1 (orange/red) and Arm 2 (blue/green) are distinguishable</li>
+<li>Buzzer and haptic feedback serve as non-visual angle confirmation</li>
+<li>Canvas labels use minimum 12px — never smaller</li>
+<li>Touch targets minimum 48×48dp on all interactive elements</li>
+</ul>
+<hr>
+<div align="center">
+<p><strong>Sikhay Research, Development and Prototyping and Valiger</strong><br>
+<em>Internal — Proprietary and Confidential · © 2026 All rights reserved</em></p>
+</div>
+</article><div class="mt-16 pt-8 border-t border-[var(--border)]"><a class="inline-flex items-center gap-1.5 text-sm font-mono text-[var(--muted)] hover:text-[var(--primary)] transition-colors duration-200 no-underline group" href="/docs"><span class="group-hover:-translate-x-0.5 transition-transform duration-200">←</span>Back to documentation</a></div></div></main><script src="/_next/static/chunks/webpack-cb86a99cd2f791d1.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0]);self.__next_f.push([2,null])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/css/0e235972c0e5e5c7.css\",\"style\"]\n"])</script><script>self.__next_f.push([1,"2:I[5751,[],\"\"]\n5:I[9275,[],\"\"]\n7:I[1343,[],\"\"]\n8:I[5849,[\"231\",\"static/chunks/231-c27e618569e042bc.js\",\"185\",\"static/chunks/app/layout-b05e199ed9449032.js\"],\"default\"]\na:I[6130,[],\"\"]\n6:[\"slug\",\"ui-spec\",\"d\"]\nb:[]\n"])</script><script>self.__next_f.push([1,"0:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/0e235972c0e5e5c7.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L2\",null,{\"buildId\":\"ajbg28fLywErTqloGrB5C\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/docs/ui-spec\",\"initialTree\":[\"\",{\"children\":[\"docs\",{\"children\":[[\"slug\",\"ui-spec\",\"d\"],{\"children\":[\"__PAGE__?{\\\"slug\\\":\\\"ui-spec\\\"}\",{}]}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"docs\",{\"children\":[[\"slug\",\"ui-spec\",\"d\"],{\"children\":[\"__PAGE__\",{},[[\"$L3\",\"$L4\"],null],null]},[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"docs\",\"children\",\"$6\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"styles\":null}],null]},[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"docs\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"styles\":null}],null]},[[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"children\":[[\"$\",\"$L8\",null,{}],[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"styles\":null}]]}]}],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$L9\"],\"globalErrorComponent\":\"$a\",\"missingSlots\":\"$Wb\"}]]\n"])</script><script>self.__next_f.push([1,"c:I[231,[\"231\",\"static/chunks/231-c27e618569e042bc.js\",\"121\",\"static/chunks/app/docs/%5Bslug%5D/page-8e13c7886f515bb3.js\"],\"\"]\nd:T321b,"])</script><script>self.__next_f.push([1,"\u003ch1\u003eRADIAN UI/UX Specification\u003c/h1\u003e\n\u003cblockquote\u003e\n\u003cp\u003e\u003cstrong\u003eVersion:\u003c/strong\u003e 1.0\u003cbr\u003e\n\u003cstrong\u003eStatus:\u003c/strong\u003e Locked for v1 — changes require both leads\u003cbr\u003e\n\u003cstrong\u003eSikhay and Valiger Collaboration\u003c/strong\u003e\u003cbr\u003e\n\u003cstrong\u003eDate:\u003c/strong\u003e July 17, 2026\u003c/p\u003e\n\u003c/blockquote\u003e\n\u003chr\u003e\n\u003ch2\u003eTable of Contents\u003c/h2\u003e\n\u003col\u003e\n\u003cli\u003e\u003ca href=\"#1-layout-system\"\u003eLayout System\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href=\"#2-color-themes\"\u003eColor Themes\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href=\"#3-typography\"\u003eTypography\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href=\"#4-canvas-design--per-mode\"\u003eCanvas Design — Per Mode\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href=\"#5-component-guidelines\"\u003eComponent Guidelines\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href=\"#6-accessibility\"\u003eAccessibility\u003c/a\u003e\u003c/li\u003e\n\u003c/ol\u003e\n\u003chr\u003e\n\u003ch2\u003e1. Layout System\u003c/h2\u003e\n\u003cp\u003eRADIAN uses a \u003cstrong\u003eresponsive two-panel layout\u003c/strong\u003e that adapts to screen width. The physical device is primarily used in a classroom — on a desk in front of a student (portrait phone) or projected on a display during a teacher demonstration (landscape tablet or widescreen).\u003c/p\u003e\n\u003ch3\u003eBreakpoints\u003c/h3\u003e\n\u003cp\u003e| Screen Width | Layout | Use Case |\r\n|---|---|---|\r\n| \u0026#x3C; 600px | Single panel, stacked | Phone portrait — student personal use |\r\n| 600–900px | Side-by-side | Phone landscape / small tablet |\r\n| \u003e 900px | Full two-panel with persistent sidebar | Tablet / widescreen / teacher demo |\u003c/p\u003e\n\u003ch3\u003eImplementation\u003c/h3\u003e\n\u003cpre\u003e\u003ccode class=\"language-dart\"\u003eLayoutBuilder(\r\n  builder: (context, constraints) {\r\n    if (constraints.maxWidth \u003e 900) {\r\n      return WideLayout();     // persistent sidebar + full canvas\r\n    } else if (constraints.maxWidth \u003e 600) {\r\n      return MediumLayout();   // side-by-side, no persistent sidebar\r\n    } else {\r\n      return NarrowLayout();   // stacked, full-width canvas\r\n    }\r\n  },\r\n)\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch3\u003ePanel Anatomy — Widescreen (\u003e 900px)\u003c/h3\u003e\n\u003cpre\u003e\u003ccode\u003e┌─────────────────────────────────────────────────────────┐\r\n│  AppBar — RADIAN · Mode Name · BLE status badge         │\r\n├──────────────────┬──────────────────────────────────────┤\r\n│  LEFT PANEL      │  RIGHT PANEL                         │\r\n│  (fixed 300px)   │  (flexible)                          │\r\n│                  │                                       │\r\n│  BLE badge       │  ┌─────────────────────────────────┐ │\r\n│  ─────────────   │  │                                 │ │\r\n│  Mode selector   │  │        CANVAS                   │ │\r\n│  [1][2][3][4]    │  │                                 │ │\r\n│  ─────────────   │  │   (unit circle / vector /       │ │\r\n│  Arm 1: 47.3°    │  │    matrix / polygon)            │ │\r\n│  Arm 2: 112.8°   │  │                                 │ │\r\n│  rad: 0.825      │  └─────────────────────────────────┘ │\r\n│  ─────────────   │                                       │\r\n│  cos θ: 0.682    │  Degree readout · Radian readout      │\r\n│  sin θ: 0.731    │                                       │\r\n└──────────────────┴──────────────────────────────────────┘\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch3\u003eLeft Panel Contents (Widescreen)\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eBLE connection status and signal strength\u003c/li\u003e\n\u003cli\u003eMode selector — all four modes always visible as tappable tiles\u003c/li\u003e\n\u003cli\u003eLive angle readout badges — Arm 1, Arm 2, computed value\u003c/li\u003e\n\u003cli\u003ePolygon N stepper (Mode 4 only, shown contextually)\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eRight Panel Contents (Widescreen)\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eFull visualizer canvas — fills available space\u003c/li\u003e\n\u003cli\u003eAngle value bar below the canvas (degree and radian, large monospace type)\u003c/li\u003e\n\u003c/ul\u003e\n\u003chr\u003e\n\u003ch2\u003e2. Color Themes\u003c/h2\u003e\n\u003cp\u003eThree themes are defined in \u003ccode\u003eapp/lib/app_theme.dart\u003c/code\u003e. Access canvas-specific colors via:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-dart\"\u003efinal canvas = Theme.of(context).extension\u0026#x3C;RadianCanvasTheme\u003e()!;\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch3\u003eTheme 1 — Obsidian (Default Dark)\u003c/h3\u003e\n\u003cp\u003e| Role | Color | Hex |\r\n|---|---|---|\r\n| Background | Deep navy-black | \u003ccode\u003e#0D1117\u003c/code\u003e |\r\n| Surface / panels | Dark slate | \u003ccode\u003e#161B22\u003c/code\u003e |\r\n| Border / divider | Subtle gray | \u003ccode\u003e#30363D\u003c/code\u003e |\r\n| Primary accent | Electric blue | \u003ccode\u003e#58A6FF\u003c/code\u003e |\r\n| Secondary accent | Soft teal | \u003ccode\u003e#3DCFB8\u003c/code\u003e |\r\n| Arm 1 | Vivid orange | \u003ccode\u003e#F78166\u003c/code\u003e |\r\n| Arm 2 | Lime green | \u003ccode\u003e#7EE787\u003c/code\u003e |\r\n| Resultant vector | Gold | \u003ccode\u003e#E3B341\u003c/code\u003e |\r\n| Text primary | Off-white | \u003ccode\u003e#E6EDF3\u003c/code\u003e |\r\n| Text muted | Cool gray | \u003ccode\u003e#8B949E\u003c/code\u003e |\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eWhen to use:\u003c/strong\u003e Default. Best for extended classroom sessions and low-light environments.\u003c/p\u003e\n\u003ch3\u003eTheme 2 — Chalk (Light / Classroom)\u003c/h3\u003e\n\u003cp\u003e| Role | Color | Hex |\r\n|---|---|---|\r\n| Background | Warm white | \u003ccode\u003e#FAFAFA\u003c/code\u003e |\r\n| Surface / panels | Light gray | \u003ccode\u003e#F0F2F5\u003c/code\u003e |\r\n| Border / divider | Medium gray | \u003ccode\u003e#D0D7DE\u003c/code\u003e |\r\n| Primary accent | Deep blue | \u003ccode\u003e#0969DA\u003c/code\u003e |\r\n| Secondary accent | Dark teal | \u003ccode\u003e#1A7F64\u003c/code\u003e |\r\n| Arm 1 | Red-orange | \u003ccode\u003e#CF222E\u003c/code\u003e |\r\n| Arm 2 | Forest green | \u003ccode\u003e#116329\u003c/code\u003e |\r\n| Resultant vector | Dark gold | \u003ccode\u003e#9A6700\u003c/code\u003e |\r\n| Text primary | Near-black | \u003ccode\u003e#1F2328\u003c/code\u003e |\r\n| Text muted | Medium gray | \u003ccode\u003e#656D76\u003c/code\u003e |\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eWhen to use:\u003c/strong\u003e Projected displays, bright classrooms, printable screenshots.\u003c/p\u003e\n\u003ch3\u003eTheme 3 — Sikhay (Branded Dark)\u003c/h3\u003e\n\u003cp\u003e| Role | Color | Hex |\r\n|---|---|---|\r\n| Background | Rich black | \u003ccode\u003e#0A0A0A\u003c/code\u003e |\r\n| Surface / panels | Dark charcoal | \u003ccode\u003e#141414\u003c/code\u003e |\r\n| Border / divider | Dark gray | \u003ccode\u003e#2A2A2A\u003c/code\u003e |\r\n| Arm 1 | Bright white | \u003ccode\u003e#FFFFFF\u003c/code\u003e |\r\n| Arm 2 | Light gray | \u003ccode\u003e#AAAAAA\u003c/code\u003e |\r\n| Resultant vector | Off-white | \u003ccode\u003e#E0E0E0\u003c/code\u003e |\r\n| Text primary | White | \u003ccode\u003e#FFFFFF\u003c/code\u003e |\r\n| Text muted | Gray | \u003ccode\u003e#888888\u003c/code\u003e |\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eWhen to use:\u003c/strong\u003e Product demos, pitch presentations, investor showcases.\u003c/p\u003e\n\u003chr\u003e\n\u003ch2\u003e3. Typography\u003c/h2\u003e\n\u003cp\u003e| Role | Font | Size | Weight | Notes |\r\n|---|---|---|---|---|\r\n| Mode name | Inter | 18px | SemiBold | AppBar and mode tile labels |\r\n| Live angle readout | JetBrains Mono | 32px | Bold | Numbers that update rapidly — fixed-width prevents layout jump |\r\n| Canvas labels | Inter | 12px | Regular | Angle tick labels, axis labels |\r\n| Matrix values | JetBrains Mono | 14px | Medium | 2×2 matrix in Mode 3 |\r\n| Body / settings | Inter | 14px | Regular | All prose, settings labels |\r\n| Section headers | Inter | 16px | Medium | Left panel section dividers |\u003c/p\u003e\n\u003ch3\u003eFont Loading\u003c/h3\u003e\n\u003cp\u003eAdd to \u003ccode\u003epubspec.yaml\u003c/code\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-yaml\"\u003eflutter:\r\n  fonts:\r\n    - family: Inter\r\n      fonts:\r\n        - asset: assets/fonts/Inter-Regular.ttf\r\n        - asset: assets/fonts/Inter-Medium.ttf   weight: 500\r\n        - asset: assets/fonts/Inter-SemiBold.ttf weight: 600\r\n    - family: JetBrainsMono\r\n      fonts:\r\n        - asset: assets/fonts/JetBrainsMono-Regular.ttf\r\n        - asset: assets/fonts/JetBrainsMono-Medium.ttf  weight: 500\r\n        - asset: assets/fonts/JetBrainsMono-Bold.ttf    weight: 700\n\u003c/code\u003e\u003c/pre\u003e\n\u003cblockquote\u003e\n\u003cp\u003eDownload Inter from https://rsms.me/inter and JetBrains Mono from https://www.jetbrains.com/lp/mono — both are open source.\u003c/p\u003e\n\u003c/blockquote\u003e\n\u003chr\u003e\n\u003ch2\u003e4. Canvas Design — Per Mode\u003c/h2\u003e\n\u003ch3\u003eGlobal Canvas Rules\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eCanvas fills the right panel on widescreen or the lower 60% on mobile portrait\u003c/li\u003e\n\u003cli\u003eOrigin point always marked with a small filled circle — never implied\u003c/li\u003e\n\u003cli\u003eAll arms rendered as thick rounded lines (\u003ccode\u003estrokeWidth: 4.0\u003c/code\u003e) with an arrowhead at the tip\u003c/li\u003e\n\u003cli\u003eAngle arc drawn from 0° to current angle — filled with arm color at 20% opacity\u003c/li\u003e\n\u003cli\u003eGrid lines at 30° intervals — 10% opacity, never distracting\u003c/li\u003e\n\u003cli\u003eLabels never overlap the arm — positioned at arc midpoint, offset outward by 16px\u003c/li\u003e\n\u003cli\u003eAll arm movements eased with \u003ccode\u003e200ms\u003c/code\u003e curve — \u003ccode\u003eCurves.easeOut\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eCanvas redraws triggered by BLE notify stream, not a fixed timer\u003c/li\u003e\n\u003c/ul\u003e\n\u003chr\u003e\n\u003ch3\u003eMode 1 — Unit Circle Canvas\u003c/h3\u003e\n\u003cp\u003e\u003cstrong\u003eLayout:\u003c/strong\u003e\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e         sin θ ↑\r\n                │\r\n   ─────────────O─────────────  cos θ →\r\n               ╱│\r\n         arm  ╱ │\r\n             ╱  │\r\n    (cos θ, sin θ)\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003e\u003cstrong\u003eElements:\u003c/strong\u003e\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eFull unit circle at radius = 80% of min(width, height) / 2\u003c/li\u003e\n\u003cli\u003eCardinal labels outside the ring: \u003ccode\u003e0\u003c/code\u003e, \u003ccode\u003eπ/2\u003c/code\u003e, \u003ccode\u003eπ\u003c/code\u003e, \u003ccode\u003e3π/2\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eTick marks at 30°, 45°, 60° and their radian equivalents\u003c/li\u003e\n\u003cli\u003eArm from origin to (cos θ, sin θ) — color: Arm 1\u003c/li\u003e\n\u003cli\u003eDotted projection lines from arm tip to x-axis (cos) and y-axis (sin)\u003c/li\u003e\n\u003cli\u003eCoordinate labels at projection endpoints — \u003ccode\u003ecos θ = 0.682\u003c/code\u003e, \u003ccode\u003esin θ = 0.731\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eBottom bar: \u003ccode\u003e47.3°\u003c/code\u003e and \u003ccode\u003e0.825 rad\u003c/code\u003e in large JetBrains Mono type\u003c/li\u003e\n\u003c/ul\u003e\n\u003chr\u003e\n\u003ch3\u003eMode 2 — Vector Addition Canvas\u003c/h3\u003e\n\u003cp\u003e\u003cstrong\u003eElements:\u003c/strong\u003e\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eArm 1 from origin — color: Arm 1\u003c/li\u003e\n\u003cli\u003eArm 2 from origin — color: Arm 2\u003c/li\u003e\n\u003cli\u003eResultant vector drawn tail-to-tip (arm 1 tip → arm 2 tip) — color: Resultant\u003c/li\u003e\n\u003cli\u003eDashed component lines projected to x and y axes for each arm\u003c/li\u003e\n\u003cli\u003eFaint parallelogram outline connecting all four tips\u003c/li\u003e\n\u003cli\u003eBottom bar: \u003ccode\u003e|R| = 1.41   ∠ = 80.05°\u003c/code\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003chr\u003e\n\u003ch3\u003eMode 3 — Rotation Matrix Canvas\u003c/h3\u003e\n\u003cp\u003e\u003cstrong\u003eElements:\u003c/strong\u003e\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003e2×2 rotation matrix displayed top-left in JetBrains Mono, values updating live:\n\u003cpre\u003e\u003ccode\u003eR(θ) = [ cos θ  -sin θ ]\r\n        [ sin θ   cos θ ]\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eOriginal arm 2 vector in muted color\u003c/li\u003e\n\u003cli\u003eTransformed arm 2 vector in bright color\u003c/li\u003e\n\u003cli\u003eArc drawn between original and transformed showing rotation angle θ\u003c/li\u003e\n\u003cli\u003eOptional ghost trail (last 5 positions at decreasing opacity) — toggled in Settings\u003c/li\u003e\n\u003c/ul\u003e\n\u003chr\u003e\n\u003ch3\u003eMode 4 — Polygon / Central Angle Canvas\u003c/h3\u003e\n\u003cp\u003e\u003cstrong\u003eElements:\u003c/strong\u003e\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eRegular N-gon centered on canvas, inscribed in a faint circle\u003c/li\u003e\n\u003cli\u003eCurrent vertex highlighted with filled dot + subtle glow\u003c/li\u003e\n\u003cli\u003eAll interior angles shown as small arcs at each vertex\u003c/li\u003e\n\u003cli\u003eCentral angle arc drawn from center to current vertex\u003c/li\u003e\n\u003cli\u003eN stepper (+/−) in top-right corner of canvas\u003c/li\u003e\n\u003cli\u003eBottom bar three-column layout:\n\u003cpre\u003e\u003ccode\u003eInterior: 120°    Exterior: 60°    Central: 60°\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003ePolygon label centered above canvas: \u003ccode\u003eRegular Hexagon (N = 6)\u003c/code\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003chr\u003e\n\u003ch2\u003e5. Component Guidelines\u003c/h2\u003e\n\u003ch3\u003eBLE Status Badge\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eConnected: filled green dot + device name\u003c/li\u003e\n\u003cli\u003eScanning: pulsing gray dot + \"Scanning...\"\u003c/li\u003e\n\u003cli\u003eDisconnected: empty red dot + \"Not connected\"\u003c/li\u003e\n\u003cli\u003eAlways visible in AppBar trailing position\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eMode Selector Tiles\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eFour tiles always visible on widescreen left panel\u003c/li\u003e\n\u003cli\u003eOn mobile: bottom navigation bar with four icons\u003c/li\u003e\n\u003cli\u003eActive mode: filled background using primary color\u003c/li\u003e\n\u003cli\u003eInactive: surface color with muted label\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eAngle Readout Badge\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eLarge JetBrains Mono type — 32px bold\u003c/li\u003e\n\u003cli\u003eDegree and radian shown simultaneously, separated by a divider\u003c/li\u003e\n\u003cli\u003eUpdates at 20Hz — smooth, no flicker\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eSettings Screen\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eTheme selector: three preview tiles (Obsidian / Chalk / Sikhay)\u003c/li\u003e\n\u003cli\u003eUnit preference toggle: Degrees / Radians\u003c/li\u003e\n\u003cli\u003eGhost trail toggle (Mode 3 only)\u003c/li\u003e\n\u003cli\u003eDevice nickname field\u003c/li\u003e\n\u003cli\u003eDisconnect button\u003c/li\u003e\n\u003c/ul\u003e\n\u003chr\u003e\n\u003ch2\u003e6. Accessibility\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eAll color pairs meet WCAG AA contrast ratio (4.5:1 minimum for text)\u003c/li\u003e\n\u003cli\u003eArm colors are distinct under deuteranopia — Arm 1 (orange/red) and Arm 2 (blue/green) are distinguishable\u003c/li\u003e\n\u003cli\u003eBuzzer and haptic feedback serve as non-visual angle confirmation\u003c/li\u003e\n\u003cli\u003eCanvas labels use minimum 12px — never smaller\u003c/li\u003e\n\u003cli\u003eTouch targets minimum 48×48dp on all interactive elements\u003c/li\u003e\n\u003c/ul\u003e\n\u003chr\u003e\n\u003cdiv align=\"center\"\u003e\n\u003cp\u003e\u003cstrong\u003eSikhay Research, Development and Prototyping and Valiger\u003c/strong\u003e\u003cbr\u003e\n\u003cem\u003eInternal — Proprietary and Confidential · © 2026 All rights reserved\u003c/em\u003e\u003c/p\u003e\n\u003c/div\u003e\n"])</script><script>self.__next_f.push([1,"4:[\"$\",\"main\",null,{\"className\":\"min-h-screen pt-28 pb-24\",\"children\":[\"$\",\"div\",null,{\"className\":\"max-w-3xl mx-auto px-6\",\"children\":[[\"$\",\"$Lc\",null,{\"href\":\"/docs\",\"className\":\"inline-flex items-center gap-1.5 text-sm font-mono text-[var(--muted)] hover:text-[var(--primary)] transition-colors duration-200 no-underline mb-10 group\",\"children\":[[\"$\",\"span\",null,{\"className\":\"group-hover:-translate-x-0.5 transition-transform duration-200\",\"children\":\"←\"}],\"All docs\"]}],[\"$\",\"article\",null,{\"className\":\"prose prose-invert prose-obsidian max-w-none\",\"dangerouslySetInnerHTML\":{\"__html\":\"$d\"}}],[\"$\",\"div\",null,{\"className\":\"mt-16 pt-8 border-t border-[var(--border)]\",\"children\":[\"$\",\"$Lc\",null,{\"href\":\"/docs\",\"className\":\"inline-flex items-center gap-1.5 text-sm font-mono text-[var(--muted)] hover:text-[var(--primary)] transition-colors duration-200 no-underline group\",\"children\":[[\"$\",\"span\",null,{\"className\":\"group-hover:-translate-x-0.5 transition-transform duration-200\",\"children\":\"←\"}],\"Back to documentation\"]}]}]]}]}]\n9:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"2\",{\"children\":\"RADIAN UI/UX Specification | RADIAN\"}],[\"$\",\"meta\",\"3\",{\"name\":\"description\",\"content\":\"Version: 1.0 | Status: Locked for v1 — changes require both leads | Sikhay and Valiger Collaboration\"}],[\"$\",\"meta\",\"4\",{\"property\":\"og:title\",\"content\":\"RADIAN UI/UX Specification | RADIAN\"}],[\"$\",\"meta\",\"5\",{\"property\":\"og:description\",\"content\":\"Version: 1.0 | Status: Locked for v1 — changes require both leads | Sikhay and Valiger Collaboration\"}],[\"$\",\"meta\",\"6\",{\"property\":\"og:type\",\"content\":\"article\"}],[\"$\",\"meta\",\"7\",{\"name\":\"twitter:card\",\"content\":\"summary_large_image\"}],[\"$\",\"meta\",\"8\",{\"name\":\"twitter:title\",\"content\":\"RADIAN — Rotary Angular Display with Intuitive Angle Notation\"}],[\"$\",\"meta\",\"9\",{\"name\":\"twitter:description\",\"content\":\"An ESP32-powered educational device that teaches abstract mathematics through physical rotation. A "])</script><script>self.__next_f.push([1,"Sikhay and Valiger collaboration.\"}]]\n3:null\n"])</script></body></html>
