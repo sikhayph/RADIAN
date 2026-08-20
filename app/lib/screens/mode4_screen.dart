@@ -65,7 +65,7 @@ class Mode4Screen extends ConsumerWidget {
         FloatingFormulaBar(
           formula: '(N-2) × 180° = ${(n - 2) * 180}°  ·  sum of interior angles',
           right: Text('SNAPPED TO: ${armAngle.toStringAsFixed(1)}°',
-            style: const TextStyle(color: VernierColors.teal, fontFamily: 'IBM Plex Mono', fontSize: 10.5)),
+            style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5)),
         ),
       ],
     );
@@ -125,13 +125,14 @@ class _StatRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: VernierColors.inkFaint, fontSize: 9,
-            fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: 'IBM Plex Mono')),
+        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 9,
+            fontWeight: FontWeight.w600, letterSpacing: 1.5)),
         const SizedBox(height: 4),
-        Text(value, style: TextStyle(color: color, fontFamily: 'IBM Plex Mono',
+        Text(value, style: theme.textTheme.displayMedium!.copyWith(color: color,
             fontSize: large ? 28.0 : 18.0, fontWeight: FontWeight.w600)),
       ],
     );

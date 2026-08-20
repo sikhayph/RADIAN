@@ -83,6 +83,7 @@ class _DataPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -91,11 +92,11 @@ class _DataPanel extends StatelessWidget {
         const FieldLabel('ANGLE'),
         const SizedBox(height: 4),
         Text('${deg.toStringAsFixed(1)}°',
-          style: const TextStyle(color: VernierColors.navy, fontFamily: 'IBM Plex Mono',
+          style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.navy,
               fontSize: 28, fontWeight: FontWeight.w600)),
         const SizedBox(height: 2),
         Text('${rad.toStringAsFixed(4)} rad',
-          style: const TextStyle(color: VernierColors.inkSoft, fontFamily: 'IBM Plex Mono', fontSize: 13)),
+          style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkSoft, fontSize: 13)),
 
         const SizedBox(height: 20),
         Container(height: 1, color: VernierColors.line),
@@ -119,13 +120,14 @@ class _TrigRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(color: VernierColors.inkSoft,
-            fontFamily: 'IBM Plex Mono', fontSize: 11)),
-        Text(value, style: const TextStyle(color: VernierColors.navy,
-            fontFamily: 'IBM Plex Mono', fontSize: 13, fontWeight: FontWeight.w600)),
+        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkSoft,
+            fontSize: 11)),
+        Text(value, style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.navy,
+            fontSize: 13, fontWeight: FontWeight.w600)),
       ],
     );
   }
@@ -146,7 +148,8 @@ class _PiFractionHint extends StatelessWidget {
     final nearest  = deg.round() % 360;
     final fraction = _piMap[nearest];
     if (fraction == null) return const SizedBox.shrink();
+    final theme = Theme.of(context);
     return Text('${deg.round()}° = $fraction',
-      style: const TextStyle(color: VernierColors.teal, fontFamily: 'IBM Plex Mono', fontSize: 10.5));
+      style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5));
   }
 }

@@ -15,6 +15,7 @@ class ModeTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(left: 24, top: 20, right: 24, bottom: 8),
       child: Row(
@@ -22,8 +23,8 @@ class ModeTitle extends StatelessWidget {
           const Text('✛', style: TextStyle(color: VernierColors.navySoft, fontSize: 13, fontWeight: FontWeight.w600)),
           const SizedBox(width: 8),
           Text('$modeLabel  •  $title',
-            style: const TextStyle(color: VernierColors.navySoft, fontSize: 10,
-                fontWeight: FontWeight.w600, letterSpacing: 1.4, fontFamily: 'IBM Plex Mono')),
+            style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.navySoft, fontSize: 10,
+                fontWeight: FontWeight.w600, letterSpacing: 1.4)),
         ],
       ),
     );
@@ -61,6 +62,7 @@ class FloatingFormulaBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 8, 20, 20),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -73,8 +75,8 @@ class FloatingFormulaBar extends StatelessWidget {
         children: [
           const Text('✦', style: TextStyle(color: VernierColors.teal, fontSize: 10)),
           const SizedBox(width: 8),
-          Text(formula, style: const TextStyle(color: VernierColors.teal,
-              fontFamily: 'IBM Plex Mono', fontSize: 10.5)),
+          Text(formula, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.teal,
+              fontSize: 10.5)),
           const Spacer(),
           if (right != null) right!,
         ],
@@ -90,11 +92,12 @@ class PanelHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(color: VernierColors.inkFaint, fontSize: 9,
-            fontWeight: FontWeight.w700, letterSpacing: 1.6, fontFamily: 'IBM Plex Mono')),
+        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 9,
+            fontWeight: FontWeight.w700, letterSpacing: 1.6)),
         Text(icon, style: const TextStyle(color: VernierColors.inkFaint, fontSize: 10)),
       ],
     );
@@ -108,7 +111,8 @@ class FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: const TextStyle(color: VernierColors.inkFaint, fontSize: 9,
-        fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: 'IBM Plex Mono'));
+    final theme = Theme.of(context);
+    return Text(text, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 9,
+        fontWeight: FontWeight.w600, letterSpacing: 1.5));
   }
 }

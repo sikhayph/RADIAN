@@ -59,7 +59,7 @@ class Mode2Screen extends ConsumerWidget {
         FloatingFormulaBar(
           formula: 'R = v1 + v2  ·  |R| = √(Rx² + Ry²)',
           right: Text('SNAPPED TO: ${a1.toStringAsFixed(1)}°',
-            style: const TextStyle(color: VernierColors.teal, fontFamily: 'IBM Plex Mono', fontSize: 10.5)),
+            style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5)),
         ),
       ],
     );
@@ -72,6 +72,7 @@ class _DataPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         FloatingCard(
@@ -102,14 +103,14 @@ class _DataPanel extends StatelessWidget {
               const PanelHeader(label: 'RESULTANT |R|', icon: '⋯'),
               const SizedBox(height: 8),
               Text(rmag.toStringAsFixed(2),
-                style: const TextStyle(color: VernierColors.amber, fontFamily: 'IBM Plex Mono',
+                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.amber,
                     fontSize: 28, fontWeight: FontWeight.w600)),
               const SizedBox(height: 4),
               Text('∠ ${rang.toStringAsFixed(1)}°',
-                style: const TextStyle(color: VernierColors.inkSoft, fontFamily: 'IBM Plex Mono', fontSize: 13)),
+                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkSoft, fontSize: 13)),
               const SizedBox(height: 4),
               Text(a2 == 0.0 ? 'not detected' : '${a2.toStringAsFixed(1)}°',
-                style: const TextStyle(color: VernierColors.inkFaint, fontFamily: 'IBM Plex Mono', fontSize: 11)),
+                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 11)),
             ],
           ),
         ),
@@ -125,6 +126,7 @@ class _VectorRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -137,11 +139,11 @@ class _VectorRow extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: const TextStyle(color: VernierColors.inkSoft,
-                fontFamily: 'IBM Plex Mono', fontSize: 10)),
+            Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkSoft,
+                fontSize: 10)),
             const SizedBox(height: 2),
-            Text(sublabel, style: const TextStyle(color: VernierColors.inkFaint,
-                fontFamily: 'IBM Plex Mono', fontSize: 10)),
+            Text(sublabel, style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkFaint,
+                fontSize: 10)),
           ],
         ),
       ],

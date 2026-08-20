@@ -115,7 +115,7 @@ class RadianThemes {
       elevation:        0,
       centerTitle:      false,
       titleTextStyle:   TextStyle(
-        fontFamily:     'IBM Plex Mono',
+        fontFamily:     'Inter',
         fontSize:       14,
         letterSpacing:  2.5,
         fontWeight:     FontWeight.w700,
@@ -142,7 +142,7 @@ class RadianThemes {
         backgroundColor: VernierColors.navy,
         foregroundColor: VernierColors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        textStyle: const TextStyle(fontFamily: 'IBM Plex Mono', fontWeight: FontWeight.w600),
+        textStyle: const TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
       ),
     ),
 
@@ -163,31 +163,31 @@ class RadianThemes {
   static TextTheme _buildTextTheme(Color primary, Color muted) {
     return TextTheme(
       titleLarge: TextStyle(
-        fontFamily: 'IBM Plex Mono', fontSize: 18,
+        fontFamily: 'Inter', fontSize: 18,
         fontWeight: FontWeight.w600, color: primary,
       ),
       titleMedium: TextStyle(
-        fontFamily: 'IBM Plex Mono', fontSize: 16,
+        fontFamily: 'Inter', fontSize: 16,
         fontWeight: FontWeight.w500, color: primary,
       ),
       bodyLarge: TextStyle(
-        fontFamily: 'IBM Plex Mono', fontSize: 14,
+        fontFamily: 'Inter', fontSize: 14,
         fontWeight: FontWeight.w400, color: primary,
       ),
       bodyMedium: TextStyle(
-        fontFamily: 'IBM Plex Mono', fontSize: 14,
+        fontFamily: 'Inter', fontSize: 14,
         fontWeight: FontWeight.w400, color: muted,
       ),
       displayLarge: TextStyle(
-        fontFamily: 'IBM Plex Mono', fontSize: 34,
+        fontFamily: 'JetBrainsMono', fontSize: 34,
         fontWeight: FontWeight.w600, color: primary, letterSpacing: 0.3,
       ),
       displayMedium: TextStyle(
-        fontFamily: 'IBM Plex Mono', fontSize: 19,
+        fontFamily: 'JetBrainsMono', fontSize: 19,
         fontWeight: FontWeight.w600, color: primary,
       ),
       labelSmall: TextStyle(
-        fontFamily: 'IBM Plex Mono', fontSize: 10.5,
+        fontFamily: 'Inter', fontSize: 10.5,
         fontWeight: FontWeight.w600, color: muted, letterSpacing: 0.3,
       ),
     );

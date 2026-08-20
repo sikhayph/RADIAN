@@ -71,7 +71,7 @@ class Mode3Screen extends ConsumerWidget {
         FloatingFormulaBar(
           formula: "v' = R(θ) · v",
           right: Text('SNAPPED TO: ${theta.toStringAsFixed(1)}°',
-            style: const TextStyle(color: VernierColors.teal, fontFamily: 'IBM Plex Mono', fontSize: 10.5)),
+            style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5)),
         ),
       ],
     );
@@ -87,9 +87,9 @@ class _DataPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const matStyle = TextStyle(
-      color: VernierColors.navy, fontFamily: 'IBM Plex Mono',
-      fontSize: 13, fontWeight: FontWeight.w500,
+    final theme = Theme.of(context);
+    final matStyle = theme.textTheme.displayMedium!.copyWith(
+      color: VernierColors.navy, fontSize: 13, fontWeight: FontWeight.w500,
     );
 
     return Column(
@@ -101,11 +101,11 @@ class _DataPanel extends StatelessWidget {
               const PanelHeader(label: "TRANSFORMED v'(x, y)", icon: '⋯'),
               const SizedBox(height: 8),
               Text('( ${vxp.toStringAsFixed(2)}, ${vyp.toStringAsFixed(2)} )',
-                style: const TextStyle(color: VernierColors.coral, fontFamily: 'IBM Plex Mono',
+                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.coral,
                     fontSize: 20, fontWeight: FontWeight.w600)),
               const SizedBox(height: 4),
               Text('∠ ${theta.toStringAsFixed(1)}° ROTATION',
-                style: const TextStyle(color: VernierColors.inkSoft, fontFamily: 'IBM Plex Mono', fontSize: 11)),
+                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkSoft, fontSize: 11)),
             ],
           ),
         ),
@@ -159,7 +159,7 @@ class _DataPanel extends StatelessWidget {
               const PanelHeader(label: 'ORIGINAL v(x, y)', icon: '⋯'),
               const SizedBox(height: 8),
               Text('( ${vx.toStringAsFixed(2)}, ${vy.toStringAsFixed(2)} )',
-                style: const TextStyle(color: VernierColors.teal, fontFamily: 'IBM Plex Mono',
+                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal,
                     fontSize: 20, fontWeight: FontWeight.w600)),
             ],
           ),
