@@ -9,8 +9,12 @@
 import fs   from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { remark } from 'remark'
-import remarkHtml from 'remark-html'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkGfm from 'remark-gfm'
+import remarkRehype from 'remark-rehype'
+import rehypeSanitize from 'rehype-sanitize'
+import rehypeStringify from 'rehype-stringify'
 
 // docs/ lives one level above website/ in the repo root
 const DOCS_DIR = path.join(process.cwd(), '..', 'docs')
@@ -123,8 +127,16 @@ export async function getDocBySlug(slug: string): Promise<DocContent | null> {
   const { content } = matter(raw)               // strips YAML frontmatter (empty here, that's fine)
   const { title, description } = extractMeta(content)
 
-  const processed = await remark()
-    .use(remarkHtml, { sanitize: false })        // sanitize:false preserves all markdown HTML
+  // unified pipeline: parse markdown (with GFM) → convert to hast
+  // → sanitize HTML (default GitHub schema) → stringify
+  // allowDangerousHtml:true lets raw HTML blocks pass into hast so rehype-sanitize
+  // can explicitly strip them (raw nodes fall through the sanitizer's switch).
+  const processed = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeSanitize)
+    .use(rehypeStringify)
     .process(content)
 
   return { slug, title, description, contentHtml: String(processed) }

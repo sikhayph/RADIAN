@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from '../components/ui/Navbar'
+import Footer from '../components/ui/Footer'
 
 // metadataBase tells Next.js how to resolve relative OG image URLs at build
 // time. Replace 'https://radian.app' with the real production domain once it
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   )
