@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../app_theme.dart';
 import '../providers/scan_provider.dart';
+import '../providers/theme_provider.dart';
 import '../ble/ble_manager.dart';
 
 // ── Device Nickname Provider ──────────────────────────────────────────────────
@@ -42,8 +43,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme      = Theme.of(context);
-    final bleState   = ref.watch(bleStateProvider);
-    final themeMode  = ref.watch(themeProvider);
+    final bleState   = ref.watch(scanFlowStateProvider);
+    final themeMode  = ref.watch(themeNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +71,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 mode:       mode,
                 isSelected: isSelected,
                 onTap: () {
-                  ref.read(themeProvider.notifier).state = mode;
+                  ref.read(themeNotifierProvider.notifier).setTheme(mode);
                 },
               ),
             );
@@ -228,7 +229,7 @@ class _ThemeTile extends StatelessWidget {
               width: 24, height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _previewColor(mode),
+                color: mode.themeData.colorScheme.primary,
                 border: Border.all(
                   color: theme.colorScheme.outline,
                   width: 1,
@@ -258,14 +259,6 @@ class _ThemeTile extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Color _previewColor(RadianThemeMode mode) {
-    switch (mode) {
-      case RadianThemeMode.obsidian: return const Color(0xFF0D1117);
-      case RadianThemeMode.chalk:    return const Color(0xFFFAFAFA);
-      case RadianThemeMode.sikhay:   return const Color(0xFF0A0A0A);
-    }
   }
 }
 

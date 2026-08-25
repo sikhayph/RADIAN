@@ -1,313 +1,83 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// mode4_screen.dart
-// Mode 4 — Polygon / Central Angle Snap live visualizer
-// Sikhay and Valiger Collaboration
+// mode4_screen.dart  –  Mode 4: Polygon & Central Angle Snap
 // ─────────────────────────────────────────────────────────────────────────────
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import '../providers/packet_provider.dart';
-import '../providers/scan_provider.dart';
-import '../widgets/painters/polygon_painter.dart';
 import '../app_theme.dart';
-import '../ble/ble_manager.dart';
+import '../providers/providers.dart';
+import '../widgets/painters/polygon_painter.dart';
+import 'screen_widgets.dart';
 
 class Mode4Screen extends ConsumerWidget {
   const Mode4Screen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final packet   = ref.watch(lastPacketProvider);
-    final bleState = ref.watch(bleStateProvider);
-    final theme    = Theme.of(context);
-    final canvas   = theme.extension<RadianCanvasTheme>()!;
-    final isWide   = MediaQuery.of(context).size.width > 900;
+    final packetAsync = ref.watch(packetStreamProvider);
+    final last        = ref.watch(lastPacketProvider);
+    final theme       = Theme.of(context);
+    final canvas      = theme.extension<RadianCanvasTheme>()!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Polygon Snap'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go('/home'),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: _BleBadge(state: bleState),
-          ),
-        ],
-      ),
-
-      body: isWide
-          ? _WideLayout(packet: packet, canvas: canvas, theme: theme)
-          : _NarrowLayout(packet: packet, canvas: canvas, theme: theme),
-    );
-  }
-}
-
-// ── Wide Layout ───────────────────────────────────────────────────────────────
-
-class _WideLayout extends StatelessWidget {
-  final dynamic packet;
-  final RadianCanvasTheme canvas;
-  final ThemeData theme;
-
-  const _WideLayout({
-    required this.packet,
-    required this.canvas,
-    required this.theme,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 300,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: _DataPanel(packet: packet, canvas: canvas, theme: theme),
-          ),
-        ),
-        VerticalDivider(width: 1, color: theme.colorScheme.outline),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: _Canvas(packet: packet, canvas: canvas),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ── Narrow Layout ─────────────────────────────────────────────────────────────
-
-class _NarrowLayout extends StatelessWidget {
-  final dynamic packet;
-  final RadianCanvasTheme canvas;
-  final ThemeData theme;
-
-  const _NarrowLayout({
-    required this.packet,
-    required this.canvas,
-    required this.theme,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          flex: 6,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: _Canvas(packet: packet, canvas: canvas),
-          ),
-        ),
-        Expanded(
-          flex: 4,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: _DataPanel(packet: packet, canvas: canvas, theme: theme),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ── Canvas ────────────────────────────────────────────────────────────────────
-
-class _Canvas extends StatelessWidget {
-  final dynamic packet;
-  final RadianCanvasTheme canvas;
-
-  const _Canvas({required this.packet, required this.canvas});
-
-  @override
-  Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(
-        painter: PolygonPainter(
-          n:           packet.val.snap,
-          armAngle:    packet.a1,
-          canvasTheme: canvas,
-        ),
-        child: const SizedBox.expand(),
-      ),
-    );
-  }
-}
-
-// ── Data Panel ────────────────────────────────────────────────────────────────
-
-class _DataPanel extends StatelessWidget {
-  final dynamic packet;
-  final RadianCanvasTheme canvas;
-  final ThemeData theme;
-
-  const _DataPanel({
-    required this.packet,
-    required this.canvas,
-    required this.theme,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final n        = packet.val.snap     as int;
-    final interior = packet.val.interior as double;
-    final exterior = packet.val.exterior as double;
+    final packet   = packetAsync.whenOrNull(data: (p) => p) ?? last;
+    final n        = packet.val.snap.clamp(3, 12);
+    final interior = packet.val.interior != 0.0 ? packet.val.interior : ((n - 2) * 180.0) / n;
+    final exterior = packet.val.exterior != 0.0 ? packet.val.exterior : 360.0 / n;
     final central  = 360.0 / n;
-    final armAngle = packet.a1           as double;
+    final armAngle = packet.a1;
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // N — the headline
-          _BigReadout(
-            label: 'Polygon sides (N)',
-            value: '$n',
-            theme: theme,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Set N with the device buttons',
-            style: theme.textTheme.labelSmall,
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ModeTitle(modeLabel: 'MODE 04', title: 'POLYGON & CENTRAL ANGLE SNAP'),
 
-          const Divider(height: 32),
-
-          // Angle values — three-value panel
-          Text('Angles', style: theme.textTheme.titleMedium),
-          const SizedBox(height: 12),
-
-          _AngleRow(
-            label: 'Interior',
-            value: '${interior.toStringAsFixed(1)}°',
-            hint:  '(N−2) × 180 ÷ N',
-            color: canvas.arm2Color,
-            theme: theme,
-          ),
-          const SizedBox(height: 10),
-          _AngleRow(
-            label: 'Exterior',
-            value: '${exterior.toStringAsFixed(1)}°',
-            hint:  '360 ÷ N',
-            color: canvas.arm1Color,
-            theme: theme,
-          ),
-          const SizedBox(height: 10),
-          _AngleRow(
-            label: 'Central',
-            value: '${central.toStringAsFixed(1)}°',
-            hint:  '360 ÷ N',
-            color: canvas.resultantColor,
-            theme: theme,
-          ),
-
-          const Divider(height: 32),
-
-          // Arm position
-          Text('Arm position', style: theme.textTheme.titleMedium),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Snapped to', style: theme.textTheme.bodyMedium),
-              Text(
-                '${armAngle.toStringAsFixed(1)}°',
-                style: theme.textTheme.displayMedium,
+              Expanded(
+                flex: 3,
+                child: CustomPaint(
+                  painter: PolygonPainter(
+                    n: n, armAngle: armAngle, canvasTheme: canvas,
+                  ),
+                  child: const SizedBox.expand(),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20, top: 10, bottom: 10),
+                child: SizedBox(
+                  width: 240,
+                  child: SingleChildScrollView(
+                    child: FloatingCard(
+                      child: _DataPanel(
+                        n: n, interior: interior, exterior: exterior,
+                        central: central, armAngle: armAngle,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
-
-          const Divider(height: 32),
-
-          // Angle sum card — a teaching fact that changes with N
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color:        theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
-              border:       Border.all(color: theme.colorScheme.outline),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Sum of interior angles',
-                    style: theme.textTheme.labelSmall),
-                const SizedBox(height: 6),
-                Text(
-                  '(${n}−2) × 180° = ${((n - 2) * 180)}°',
-                  style: theme.textTheme.displayMedium,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Angle Row ─────────────────────────────────────────────────────────────────
-
-class _AngleRow extends StatelessWidget {
-  final String    label;
-  final String    value;
-  final String    hint;
-  final Color     color;
-  final ThemeData theme;
-
-  const _AngleRow({
-    required this.label,
-    required this.value,
-    required this.hint,
-    required this.color,
-    required this.theme,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 12, height: 12,
-          decoration: BoxDecoration(
-            color:        color,
-            borderRadius: BorderRadius.circular(3),
-          ),
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: theme.textTheme.bodyMedium),
-              Text(hint,  style: theme.textTheme.labelSmall),
-            ],
-          ),
+
+        FloatingFormulaBar(
+          formula: '(N-2) × 180° = ${(n - 2) * 180}°  ·  sum of interior angles',
+          right: Text('SNAPPED TO: ${armAngle.toStringAsFixed(1)}°',
+            style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5)),
         ),
-        Text(value, style: theme.textTheme.displayMedium),
       ],
     );
   }
 }
 
-// ── Big Readout ───────────────────────────────────────────────────────────────
-
-class _BigReadout extends StatelessWidget {
-  final String    label;
-  final String    value;
-  final ThemeData theme;
-  const _BigReadout({
-    required this.label,
-    required this.value,
-    required this.theme,
+class _DataPanel extends StatelessWidget {
+  final int    n;
+  final double interior, exterior, central, armAngle;
+  const _DataPanel({
+    required this.n, required this.interior, required this.exterior,
+    required this.central, required this.armAngle,
   });
 
   @override
@@ -315,48 +85,55 @@ class _BigReadout extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: theme.textTheme.bodyMedium),
-        Text(value,  style: theme.textTheme.displayLarge),
+        const PanelHeader(label: 'POLYGON', icon: '⋯'),
+        const SizedBox(height: 16),
+        _StatRow(label: 'SIDES (N)', value: '$n', color: VernierColors.navy, large: true),
+        const SizedBox(height: 16),
+        Container(height: 1, color: VernierColors.line),
+        const SizedBox(height: 16),
+        _StatRow(label: 'INTERIOR ANGLE', value: '${interior.toStringAsFixed(1)}°', color: VernierColors.navy),
+        const SizedBox(height: 14),
+        _StatRow(label: 'EXTERIOR ANGLE', value: '${exterior.toStringAsFixed(1)}°', color: VernierColors.navy),
+        const SizedBox(height: 14),
+        _StatRow(label: 'CENTRAL ANGLE', value: '${central.toStringAsFixed(1)}°', color: VernierColors.amber),
       ],
     );
   }
+
+  String _polygonName(int n) {
+    switch (n) {
+      case 3:  return 'Equilateral Triangle';
+      case 4:  return 'Square';
+      case 5:  return 'Pentagon';
+      case 6:  return 'Hexagon';
+      case 7:  return 'Heptagon';
+      case 8:  return 'Octagon';
+      case 9:  return 'Nonagon';
+      case 10: return 'Decagon';
+      case 11: return 'Hendecagon';
+      case 12: return 'Dodecagon';
+      default: return 'Regular $n-gon';
+    }
+  }
 }
 
-// ── BLE Badge ─────────────────────────────────────────────────────────────────
-
-class _BleBadge extends StatelessWidget {
-  final BLEState state;
-  const _BleBadge({required this.state});
+class _StatRow extends StatelessWidget {
+  final String label, value;
+  final Color color;
+  final bool large;
+  const _StatRow({required this.label, required this.value, required this.color, this.large = false});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    Color  color;
-    String label;
-
-    switch (state) {
-      case BLEState.connected:
-        color = Colors.green;
-        label = 'Connected';
-        break;
-      case BLEState.error:
-        color = theme.colorScheme.error;
-        label = 'Error';
-        break;
-      default:
-        color = theme.colorScheme.outline;
-        label = 'Waiting';
-    }
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 8, height: 8,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-        ),
-        const SizedBox(width: 6),
-        Text(label, style: theme.textTheme.labelSmall),
+        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 9,
+            fontWeight: FontWeight.w600, letterSpacing: 1.5)),
+        const SizedBox(height: 4),
+        Text(value, style: theme.textTheme.displayMedium!.copyWith(color: color,
+            fontSize: large ? 28.0 : 18.0, fontWeight: FontWeight.w600)),
       ],
     );
   }
