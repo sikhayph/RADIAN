@@ -16,7 +16,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bleState     = ref.watch(bleStateProvider);
+    final bleState     = ref.watch(bleStateProvider).valueOrNull ?? BLEState.disconnected;
     final lastPacket   = ref.watch(lastPacketProvider);
     final theme        = Theme.of(context);
     final isWide       = MediaQuery.of(context).size.width > 900;
