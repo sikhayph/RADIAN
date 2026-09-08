@@ -9,6 +9,7 @@
 import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Reveal from './Reveal'
+import { homepageStats } from '../../lib/specs'
 
 // ── Animated unit circle preview ──────────────────────────────────────────────
 
@@ -195,11 +196,7 @@ export default function Hero() {
             {/* Stats row */}
             <Reveal delayClass="delay-300" className="mt-12">
               <div className="flex gap-8 justify-center lg:justify-start flex-wrap">
-                {[
-                  { value: '4',    label: 'Teaching modes'   },
-                  { value: '20Hz', label: 'BLE update rate'  },
-                  { value: '0.1°', label: 'Encoder accuracy' },
-                ].map((stat) => (
+                {homepageStats.map((stat) => (
                   <div key={stat.label}>
                     <p className="text-2xl font-bold font-mono text-[var(--text)]">
                       {stat.value}

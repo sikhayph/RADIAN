@@ -6,6 +6,7 @@
 
 import type { Metadata } from 'next'
 import Reveal from '../../components/ui/Reveal'
+import Faq from '../../components/ui/Faq'
 
 export const metadata: Metadata = {
   title: 'About | RADIAN',
@@ -245,6 +246,24 @@ export default function AboutPage() {
               </Reveal>
             ))}
           </div>
+
+        </div>
+      </section>
+
+      {/* ── FAQ ───────────────────────────────────────────────────────────── */}
+      <section className="py-[120px] border-t border-[var(--border)]">
+        <div className="max-w-6xl mx-auto px-6">
+
+          <Reveal className="text-center mb-12">
+            <p className="text-sm font-mono tracking-widest mb-3 uppercase text-[var(--primary)]">
+              Common Questions
+            </p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-[var(--text)]">
+              Frequently asked
+            </h2>
+          </Reveal>
+
+          <Faq />
 
         </div>
       </section>

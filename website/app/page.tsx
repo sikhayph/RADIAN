@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Hero from '../components/ui/Hero'
 import ModeShowcase from '../components/ui/ModeShowcase'
+import WaitlistSection from '../components/ui/WaitlistSection'
 
 export const metadata: Metadata = {
   title: 'RADIAN — Rotary Angular Display with Intuitive Angle Notation',
@@ -19,6 +20,7 @@ export default function Home() {
     <main>
       <Hero />
       <ModeShowcase />
+      <WaitlistSection />
     </main>
   )
 }

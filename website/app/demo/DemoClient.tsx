@@ -9,45 +9,15 @@
 
 import { useState } from 'react'
 import Reveal from '../../components/ui/Reveal'
-
-// ── Mode metadata (mirrors ModeShowcase.tsx exactly) ──────────────────────────
-
-const modes = [
-  {
-    n:          1,
-    name:       'Degree / Radian',
-    desc:       'Unit circle, arc length, sin / cos — read live off the dial.',
-    badgeText:  'text-[var(--primary)]',
-    badgeBg:    'bg-[color-mix(in_srgb,var(--primary)_15%,transparent)]',
-  },
-  {
-    n:          2,
-    name:       'Vector Addition',
-    desc:       'Two arms combine into a resultant with live magnitude and angle.',
-    badgeText:  'text-[var(--arm1)]',
-    badgeBg:    'bg-[color-mix(in_srgb,var(--arm1)_15%,transparent)]',
-  },
-  {
-    n:          3,
-    name:       'Rotation Matrix',
-    desc:       'A 2×2 transform applied in real time, with its geometric effect.',
-    badgeText:  'text-[var(--arm2)]',
-    badgeBg:    'bg-[color-mix(in_srgb,var(--arm2)_15%,transparent)]',
-  },
-  {
-    n:          4,
-    name:       'Polygon Snap',
-    desc:       'Interior, exterior, and central angles snap as sides are added.',
-    badgeText:  'text-[var(--resultant)]',
-    badgeBg:    'bg-[color-mix(in_srgb,var(--resultant)_15%,transparent)]',
-  },
-] as const
+import { modes } from '../../lib/specs'
+import { modeAccent } from '../../components/ui/modeAccent'
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function DemoClient() {
   const [activeMode, setActiveMode] = useState(0)
   const mode = modes[activeMode]
+  const accent = modeAccent(mode.accent)
 
   return (
     <main className="min-h-screen pt-16">
@@ -72,7 +42,9 @@ export default function DemoClient() {
           {/* ── Mode selector tabs ──────────────────────────────────────── */}
           <Reveal delayClass="delay-100">
             <div className="flex flex-wrap gap-3 justify-center mb-8">
-              {modes.map((m, i) => (
+              {modes.map((m, i) => {
+                const a = modeAccent(m.accent)
+                return (
                 <button
                   key={m.n}
                   onClick={() => setActiveMode(i)}
@@ -84,13 +56,14 @@ export default function DemoClient() {
                   }`}
                 >
                   <span
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold font-mono flex-shrink-0 ${m.badgeBg} ${m.badgeText}`}
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold font-mono flex-shrink-0 ${a.bg} ${a.text}`}
                   >
                     {m.n}
                   </span>
                   {m.name}
                 </button>
-              ))}
+                )
+              })}
             </div>
           </Reveal>
 
@@ -100,13 +73,13 @@ export default function DemoClient() {
 
               {/* Mode badge */}
               <span
-                className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold font-mono mb-6 ${mode.badgeBg} ${mode.badgeText}`}
+                className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold font-mono mb-6 ${accent.bg} ${accent.text}`}
               >
                 {mode.n}
               </span>
 
               {/* Mode name */}
-              <h2 className={`text-2xl font-bold mb-3 ${mode.badgeText}`}>
+              <h2 className={`text-2xl font-bold mb-3 ${accent.text}`}>
                 {mode.name}
               </h2>
 

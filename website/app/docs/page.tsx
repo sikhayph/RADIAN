@@ -8,6 +8,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Reveal from '../../components/ui/Reveal'
+import DocsSearch from '../../components/docs/DocsSearch'
 import { getAllDocMeta, type DocMeta } from '../../lib/docs'
 
 export const metadata: Metadata = {
@@ -104,6 +105,9 @@ export default function DocsPage() {
             BLE contract, companion app UI, and full system architecture.
           </p>
         </Reveal>
+
+        {/* ── Fuzzy search over all docs ───────────────────────────────────── */}
+        <DocsSearch />
 
         {/* ── 2×2 card grid ────────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

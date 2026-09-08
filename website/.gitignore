@@ -1,1 +1,4 @@
 .next/
+
+# Generated at build time by scripts/build-docs-index.mjs
+public/search-index.json

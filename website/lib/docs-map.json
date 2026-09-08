@@ -1,0 +1,6 @@
+{
+  "ble-contract": "ble_contract.md",
+  "architecture": "architecture.md",
+  "hardware-pinout": "hardware_pinout.md",
+  "ui-spec": "ui_spec.md"
+}

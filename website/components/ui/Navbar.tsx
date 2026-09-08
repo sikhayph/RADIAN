@@ -22,10 +22,11 @@ const themes: { value: Theme; label: string; dot: string }[] = [
 // ── Nav links ─────────────────────────────────────────────────────────────────
 
 const links = [
-  { href: '/',       label: 'Home'    },
-  { href: '/demo',   label: 'Demo'    },
-  { href: '/docs',   label: 'Docs'    },
-  { href: '/about',  label: 'About'   },
+  { href: '/',           label: 'Home'       },
+  { href: '/demo',       label: 'Demo'       },
+  { href: '/calculator', label: 'Calculator' },
+  { href: '/docs',       label: 'Docs'       },
+  { href: '/about',      label: 'About'      },
 ]
 
 // ── Component ─────────────────────────────────────────────────────────────────

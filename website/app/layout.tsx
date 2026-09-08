@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import Navbar from '../components/ui/Navbar'
 import Footer from '../components/ui/Footer'
+import { SITE_URL } from '../lib/site'
 
-// metadataBase tells Next.js how to resolve relative OG image URLs at build
-// time. Replace 'https://radian.app' with the real production domain once it
-// is confirmed — or set NEXT_PUBLIC_SITE_URL in your environment and read it
-// here via `new URL(process.env.NEXT_PUBLIC_SITE_URL!)`.
+// metadataBase resolves relative OG image URLs. It reads from lib/site.ts, which
+// prefers NEXT_PUBLIC_SITE_URL and falls back to the live Vercel URL.
 export const metadata: Metadata = {
-  metadataBase: new URL('https://radian.app'),
+  metadataBase: new URL(SITE_URL),
   title:        'RADIAN — Rotary Angular Display with Intuitive Angle Notation',
   description:  'An ESP32-powered educational device that teaches abstract mathematics through physical rotation. A Sikhay and Valiger collaboration.',
   openGraph: {
@@ -36,6 +36,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   )

@@ -5,41 +5,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import Reveal from './Reveal'
-
-const modes = [
-  {
-    n:        1,
-    name:     'Degree / Radian',
-    desc:     'Unit circle, arc length, sin / cos — read live off the dial.',
-    badgeText: 'text-[var(--primary)]',
-    badgeBg:   'bg-[color-mix(in_srgb,var(--primary)_15%,transparent)]',
-    delayClass: 'delay-0',
-  },
-  {
-    n:        2,
-    name:     'Vector Addition',
-    desc:     'Two arms combine into a resultant with live magnitude and angle.',
-    badgeText: 'text-[var(--arm1)]',
-    badgeBg:   'bg-[color-mix(in_srgb,var(--arm1)_15%,transparent)]',
-    delayClass: 'delay-100',
-  },
-  {
-    n:        3,
-    name:     'Rotation Matrix',
-    desc:     'A 2×2 transform applied in real time, with its geometric effect.',
-    badgeText: 'text-[var(--arm2)]',
-    badgeBg:   'bg-[color-mix(in_srgb,var(--arm2)_15%,transparent)]',
-    delayClass: 'delay-200',
-  },
-  {
-    n:        4,
-    name:     'Polygon Snap',
-    desc:     'Interior, exterior, and central angles snap as sides are added.',
-    badgeText: 'text-[var(--resultant)]',
-    badgeBg:   'bg-[color-mix(in_srgb,var(--resultant)_15%,transparent)]',
-    delayClass: 'delay-300',
-  },
-]
+import { modes } from '../../lib/specs'
+import { modeAccent, MODE_DELAY } from './modeAccent'
 
 export default function ModeShowcase() {
   return (
@@ -58,12 +25,14 @@ export default function ModeShowcase() {
 
         {/* 2×2 grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {modes.map((mode) => (
-            <Reveal key={mode.n} delayClass={mode.delayClass} className="h-full">
+          {modes.map((mode) => {
+            const accent = modeAccent(mode.accent)
+            return (
+            <Reveal key={mode.n} delayClass={MODE_DELAY[mode.n]} className="h-full">
               <div className="h-full rounded-2xl p-6 border border-[var(--border)] bg-[var(--surface)] transition-all duration-500 ease-premium hover:-translate-y-1 hover:border-[var(--primary)] hover:shadow-[0_0_40px_-8px_var(--primary)]">
                 <div className="flex items-center gap-3 mb-3">
                   <span
-                    className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold font-mono flex-shrink-0 ${mode.badgeBg} ${mode.badgeText}`}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold font-mono flex-shrink-0 ${accent.bg} ${accent.text}`}
                   >
                     {mode.n}
                   </span>
@@ -76,7 +45,8 @@ export default function ModeShowcase() {
                 </p>
               </div>
             </Reveal>
-          ))}
+            )
+          })}
         </div>
 
       </div>

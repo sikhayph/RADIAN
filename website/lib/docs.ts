@@ -14,19 +14,18 @@ import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
 import rehypeSanitize from 'rehype-sanitize'
+import rehypeSlug from 'rehype-slug'
 import rehypeStringify from 'rehype-stringify'
+import slugMap from './docs-map.json'
 
 // docs/ lives one level above website/ in the repo root
 const DOCS_DIR = path.join(process.cwd(), '..', 'docs')
 
 // ── Slug ↔ filename map ───────────────────────────────────────────────────────
 
-const SLUG_TO_FILE: Record<string, string> = {
-  'ble-contract':    'ble_contract.md',
-  'architecture':    'architecture.md',
-  'hardware-pinout': 'hardware_pinout.md',
-  'ui-spec':         'ui_spec.md',
-}
+// The slug ↔ filename mapping lives in lib/docs-map.json so that both this
+// module and scripts/build-docs-index.mjs read the exact same source.
+export const SLUG_TO_FILE: Record<string, string> = slugMap
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -128,14 +127,19 @@ export async function getDocBySlug(slug: string): Promise<DocContent | null> {
   const { title, description } = extractMeta(content)
 
   // unified pipeline: parse markdown (with GFM) → convert to hast
-  // → sanitize HTML (default GitHub schema) → stringify
+  // → sanitize HTML (default GitHub schema) → add heading ids → stringify
   // allowDangerousHtml:true lets raw HTML blocks pass into hast so rehype-sanitize
   // can explicitly strip them (raw nodes fall through the sanitizer's switch).
+  // rehype-slug runs AFTER sanitize so the ids it adds are clean github-slugger
+  // anchors (sanitize would otherwise clobber them with a "user-content-" prefix).
+  // These anchors match scripts/build-docs-index.mjs so /docs/<slug>#<anchor>
+  // deep-links from search land on the right heading.
   const processed = await unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSanitize)
+    .use(rehypeSlug)
     .use(rehypeStringify)
     .process(content)
 
