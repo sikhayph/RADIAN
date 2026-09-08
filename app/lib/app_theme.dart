@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // ─────────────────────────────────────────────────────────────────────────────
 // RADIAN App Themes
 // Sikhay and Valiger Collaboration
-// Three themes: Obsidian (dark), Chalk (light), Sikhay (branded dark)
+// Two themes: Obsidian (dark, default), Vernier (light)
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── Color Palettes ───────────────────────────────────────────────────────────
@@ -26,6 +26,22 @@ class VernierColors {
   static const tealWash   = Color(0x234B7D6E); // rgba(75,125,110,0.14)
   static const amber      = Color(0xFFB3873C);
   static const amberWash  = Color(0x29B3873C); // rgba(179,135,60,0.16)
+}
+
+class ObsidianColors {
+  static const background   = Color(0xFF0D1117);
+  static const surface      = Color(0xFF161B22);
+  static const border       = Color(0xFF30363D);
+  static const primary      = Color(0xFF58A6FF);
+  static const secondary    = Color(0xFF3DCFB8);
+  static const arm1         = Color(0xFFF78166);
+  static const arm2         = Color(0xFF7EE787);
+  static const resultant    = Color(0xFFE3B341);
+  static const textPrimary  = Color(0xFFE6EDF3);
+  static const textMuted    = Color(0xFF8B949E);
+  static const positive     = Color(0xFF58A6FF);
+  static const negative     = Color(0xFFF78166);
+  static const error        = Color(0xFFF85149);
 }
 
 // ── Canvas Theme Extension ────────────────────────────────────────────────────
@@ -90,6 +106,78 @@ class RadianCanvasTheme extends ThemeExtension<RadianCanvasTheme> {
 // ── Theme Definitions ─────────────────────────────────────────────────────────
 
 class RadianThemes {
+
+  // ── Obsidian — Default Dark ───────────────────────────────────────────────
+  static ThemeData get obsidian => ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: ObsidianColors.background,
+
+    colorScheme: const ColorScheme.dark(
+      background:   ObsidianColors.background,
+      surface:      ObsidianColors.surface,
+      primary:      ObsidianColors.primary,
+      secondary:    ObsidianColors.secondary,
+      error:        ObsidianColors.error,
+      onBackground: ObsidianColors.textPrimary,
+      onSurface:    ObsidianColors.textPrimary,
+      onPrimary:    ObsidianColors.background,
+      outline:      ObsidianColors.border,
+    ),
+
+    textTheme: _buildTextTheme(ObsidianColors.textPrimary, ObsidianColors.textMuted),
+
+    appBarTheme: const AppBarTheme(
+      backgroundColor:  ObsidianColors.surface,
+      foregroundColor:  ObsidianColors.primary,
+      elevation:        0,
+      centerTitle:      false,
+      titleTextStyle:   TextStyle(
+        fontFamily:     'Inter',
+        fontSize:       14,
+        letterSpacing:  2.5,
+        fontWeight:     FontWeight.w700,
+        color:          ObsidianColors.primary,
+      ),
+    ),
+
+    cardTheme: const CardThemeData(
+      color:        ObsidianColors.surface,
+      elevation:    0,
+      shape:        RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(14)),
+        side:         BorderSide(color: ObsidianColors.border),
+      ),
+    ),
+
+    dividerTheme: const DividerThemeData(
+      color:     ObsidianColors.border,
+      thickness: 1,
+    ),
+
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: ObsidianColors.primary,
+        foregroundColor: ObsidianColors.background,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        textStyle: const TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
+      ),
+    ),
+
+    extensions: const [
+      RadianCanvasTheme(
+        arm1Color:      ObsidianColors.arm1,
+        arm2Color:      ObsidianColors.arm2,
+        resultantColor: ObsidianColors.resultant,
+        positiveColor:  ObsidianColors.positive,
+        negativeColor:  ObsidianColors.negative,
+        canvasBorder:   ObsidianColors.border,
+        gridLine:       Color(0x1A8B949E), // rgba(139,148,158,0.10)
+      ),
+    ],
+  );
+
+  // ── Vernier — Light ───────────────────────────────────────────────────────
   static ThemeData get vernier => ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
@@ -196,24 +284,34 @@ class RadianThemes {
 
 // ── Theme Enum ────────────────────────────────────────────────────────────────
 
-enum RadianThemeMode { vernier }
+enum RadianThemeMode { obsidian, vernier }
 
 extension RadianThemeModeExtension on RadianThemeMode {
   ThemeData get themeData {
     switch (this) {
-      case RadianThemeMode.vernier: return RadianThemes.vernier;
+      case RadianThemeMode.obsidian: return RadianThemes.obsidian;
+      case RadianThemeMode.vernier:  return RadianThemes.vernier;
+    }
+  }
+
+  Brightness get brightness {
+    switch (this) {
+      case RadianThemeMode.obsidian: return Brightness.dark;
+      case RadianThemeMode.vernier:  return Brightness.light;
     }
   }
 
   String get displayName {
     switch (this) {
-      case RadianThemeMode.vernier: return 'Vernier';
+      case RadianThemeMode.obsidian: return 'Obsidian';
+      case RadianThemeMode.vernier:  return 'Vernier';
     }
   }
 
   String get description {
     switch (this) {
-      case RadianThemeMode.vernier: return 'Precision Angle Instrument';
+      case RadianThemeMode.obsidian: return 'Dark Precision Instrument';
+      case RadianThemeMode.vernier:  return 'Precision Angle Instrument';
     }
   }
 }

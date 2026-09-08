@@ -93,7 +93,11 @@ class RadianApp extends ConsumerWidget {
     return MaterialApp.router(
       title:        'RADIAN',
       debugShowCheckedModeBanner: false,
-      theme:        themeMode.themeData,
+      theme:        RadianThemes.vernier,
+      darkTheme:    RadianThemes.obsidian,
+      themeMode:    themeMode.brightness == Brightness.dark
+          ? ThemeMode.dark
+          : ThemeMode.light,
       routerConfig: _router,
     );
   }

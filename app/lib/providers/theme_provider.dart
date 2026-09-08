@@ -39,7 +39,7 @@ class ThemeNotifier extends StateNotifier<RadianThemeMode> {
 /// Reads the persisted theme from Hive on first access, defaults to vernier.
 final themeNotifierProvider =
     StateNotifierProvider<ThemeNotifier, RadianThemeMode>((ref) {
-  RadianThemeMode initial = RadianThemeMode.vernier;
+  RadianThemeMode initial = RadianThemeMode.obsidian;
   try {
     if (Hive.isBoxOpen(_kBoxName)) {
       final box   = Hive.box(_kBoxName);
@@ -47,7 +47,7 @@ final themeNotifierProvider =
       if (saved != null) {
         initial = RadianThemeMode.values.firstWhere(
           (m) => m.name == saved,
-          orElse: () => RadianThemeMode.vernier,
+          orElse: () => RadianThemeMode.obsidian,
         );
       }
     }
