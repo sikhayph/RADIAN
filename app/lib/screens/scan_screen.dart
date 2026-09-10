@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import '../app_theme.dart';
 import '../providers/scan_provider.dart';
 import '../ble/ble_manager.dart';
 
@@ -154,7 +155,7 @@ class _DeviceTile extends StatelessWidget {
         width: 48, height: 48,
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16), // rounded-2xl — matches website card radius
           border: Border.all(color: theme.colorScheme.outline),
         ),
         child: Icon(
@@ -228,12 +229,13 @@ class _BleBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     Color  color;
     String label;
 
     switch (state) {
       case BLEState.connected:
-        color = Colors.green;
+        color = ui.success;
         label = 'Connected';
         break;
       case BLEState.scanning:
@@ -241,7 +243,7 @@ class _BleBadge extends StatelessWidget {
         label = 'Scanning';
         break;
       case BLEState.connecting:
-        color = Colors.orange;
+        color = ui.warning;
         label = 'Connecting';
         break;
       case BLEState.error:

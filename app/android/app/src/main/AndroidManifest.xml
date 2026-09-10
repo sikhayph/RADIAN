@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <!-- Required for the waitlist API call (and any other future networking) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:label="RADIAN"
         android:name="${applicationName}"

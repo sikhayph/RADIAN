@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../app_theme.dart';
 import '../providers/scan_provider.dart';
 import '../providers/packet_provider.dart';
 import '../ble/ble_manager.dart';
@@ -248,11 +249,11 @@ class _ModeTile extends StatelessWidget {
 
     return InkWell(
       onTap: () => context.go(mode.route),
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(16),
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16), // rounded-2xl — matches website card radius
           border: Border.all(color: theme.colorScheme.outline),
         ),
         padding: const EdgeInsets.all(16),
@@ -290,12 +291,13 @@ class _BleBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     Color  color;
     String label;
 
     switch (state) {
       case BLEState.connected:
-        color = Colors.green;
+        color = ui.success;
         label = 'Connected';
         break;
       case BLEState.scanning:
@@ -303,7 +305,7 @@ class _BleBadge extends StatelessWidget {
         label = 'Scanning';
         break;
       case BLEState.connecting:
-        color = Colors.orange;
+        color = ui.warning;
         label = 'Connecting';
         break;
       case BLEState.error:

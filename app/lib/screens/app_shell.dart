@@ -4,6 +4,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import 'dart:convert';
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,9 @@ import '../app_theme.dart';
 import '../ble/ble_manager.dart';
 import '../providers/providers.dart';
 import 'screen_widgets.dart';
+import 'waitlist_section.dart';
+import 'docs_section.dart';
+import 'faq_section.dart';
 
 class AppShell extends ConsumerWidget {
   final Widget child;
@@ -20,12 +24,16 @@ class AppShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: VernierColors.bg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         children: [
           // Background grid
           Positioned.fill(
-            child: CustomPaint(painter: _CanvasBackgroundPainter()),
+            child: CustomPaint(
+              painter: _CanvasBackgroundPainter(
+                Theme.of(context).extension<RadianUiTheme>()!.divider,
+              ),
+            ),
           ),
 
           // Main layout
@@ -73,14 +81,16 @@ class _NavBar extends ConsumerWidget {
     }
 
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
+    final canvas = theme.extension<RadianCanvasTheme>()!;
 
     return Container(
       height: 48,
       padding: const EdgeInsets.symmetric(horizontal: 18),
       decoration: BoxDecoration(
-        color: VernierColors.white,
+        color: ui.surface,
         border: Border(
-          bottom: BorderSide(color: VernierColors.lineStrong),
+          bottom: BorderSide(color: ui.border),
         ),
       ),
       child: Row(
@@ -89,14 +99,14 @@ class _NavBar extends ConsumerWidget {
           // Brand
           Row(
             children: [
-              const Text('✛', style: TextStyle(
-                color: VernierColors.coral,
+              Text('✛', style: TextStyle(
+                color: canvas.arm1Color,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               )),
               const SizedBox(width: 9),
               Text('RADIAN', style: theme.textTheme.bodyMedium!.copyWith(
-                color: VernierColors.navy,
+                color: ui.textPrimary,
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 2.5,
@@ -116,6 +126,8 @@ class _NavBar extends ConsumerWidget {
                   onTap: () => context.go('/mode/3')),
               _NavTab(label: 'MODE 4', active: currentIndex == 4,
                   onTap: () => context.go('/mode/4')),
+              _NavTab(label: 'CALC', active: currentIndex == 5,
+                  onTap: () => context.go('/mode/5')),
             ],
           ),
 
@@ -137,7 +149,7 @@ class _NavBar extends ConsumerWidget {
               Text(
                 bleState == BLEState.connected ? 'CONNECTED' : 'DISCONNECTED',
                 style: theme.textTheme.bodyMedium!.copyWith(
-                  color: VernierColors.inkSoft,
+                  color: ui.textSecondary,
                   fontSize: 9.5,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1.5,
@@ -160,19 +172,22 @@ class _NavTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         margin: const EdgeInsets.symmetric(horizontal: 1),
         decoration: BoxDecoration(
-          color: active ? VernierColors.navy : Colors.transparent,
-          borderRadius: BorderRadius.circular(3),
+          color: active ? theme.colorScheme.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(8), // rounded-lg — matches website nav pill radius
         ),
         child: Text(
           label,
           style: theme.textTheme.bodyMedium!.copyWith(
-            color: active ? const Color(0xFFF4F0E6) : VernierColors.inkSoft,
+            color: active ? theme.colorScheme.onPrimary : ui.textSecondary,
             fontSize: 10,
             fontWeight: FontWeight.w600,
             letterSpacing: 1.2,
@@ -190,6 +205,7 @@ class _SignalBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ui = Theme.of(context).extension<RadianUiTheme>()!;
     return Container(
       width: 3,
       height: height,
@@ -198,7 +214,7 @@ class _SignalBar extends StatelessWidget {
         width: 3,
         height: height,
         decoration: BoxDecoration(
-          color: active ? VernierColors.teal : VernierColors.inkFaint,
+          color: active ? ui.success : ui.textFaint,
           borderRadius: BorderRadius.circular(1),
         ),
       ),
@@ -217,12 +233,13 @@ class _LeftSidebar extends ConsumerWidget {
       currentIndex = int.tryParse(loc.split('/').last) ?? 1;
     }
 
+    final ui = Theme.of(context).extension<RadianUiTheme>()!;
     return Container(
       width: 56,
       decoration: BoxDecoration(
-        color: VernierColors.white,
+        color: ui.surface,
         border: Border(
-          right: BorderSide(color: VernierColors.lineStrong),
+          right: BorderSide(color: ui.border),
         ),
       ),
       child: Column(
@@ -248,8 +265,28 @@ class _LeftSidebar extends ConsumerWidget {
             active: currentIndex == 4,
             onTap: () => context.go('/mode/4'),
           ),
+          _SidebarModeItem(
+            index: 5, label: 'CALC',
+            active: currentIndex == 5,
+            onTap: () => context.go('/mode/5'),
+          ),
           const Spacer(),
-          Container(height: 1, color: VernierColors.line),
+          Container(height: 1, color: ui.divider),
+          _SidebarActionItem(
+            icon: Icons.mail_outline, label: 'WAITLIST',
+            onTap: () => _showAppModal(context,
+                title: 'Join the Waitlist', child: const _WaitlistModalContent()),
+          ),
+          _SidebarActionItem(
+            icon: Icons.menu_book_outlined, label: 'DOCS',
+            onTap: () => _showAppModal(context,
+                title: 'Documentation', maxWidth: 480, child: const DocsSection()),
+          ),
+          _SidebarActionItem(
+            icon: Icons.help_outline, label: 'FAQ',
+            onTap: () => _showAppModal(context,
+                title: 'Frequently Asked Questions', maxWidth: 480, child: const FaqSection()),
+          ),
           _SidebarActionItem(
             icon: Icons.build_outlined, label: 'TOOLS',
             onTap: () => _showAppModal(context,
@@ -282,14 +319,18 @@ class _SidebarModeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
+    final accent = theme.colorScheme.primary;
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           border: active
-              ? Border(left: BorderSide(color: VernierColors.navy, width: 2))
+              ? Border(left: BorderSide(color: accent, width: 2))
               : null,
         ),
         child: Column(
@@ -299,10 +340,10 @@ class _SidebarModeItem extends StatelessWidget {
               width: 28,
               height: 28,
               decoration: BoxDecoration(
-                color: active ? VernierColors.navy : Colors.transparent,
+                color: active ? accent : Colors.transparent,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: active ? VernierColors.navy : VernierColors.navySoft,
+                  color: active ? accent : ui.accentSoft,
                   width: 1.5,
                 ),
               ),
@@ -310,7 +351,7 @@ class _SidebarModeItem extends StatelessWidget {
               child: Text(
                 '$index',
                 style: theme.textTheme.bodyMedium!.copyWith(
-                  color: active ? Colors.white : VernierColors.navySoft,
+                  color: active ? theme.colorScheme.onPrimary : ui.accentSoft,
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
                 ),
@@ -320,7 +361,7 @@ class _SidebarModeItem extends StatelessWidget {
             Text(
               label,
               style: theme.textTheme.bodyMedium!.copyWith(
-                color: active ? VernierColors.navy : VernierColors.inkFaint,
+                color: active ? accent : ui.textFaint,
                 fontSize: 7.5,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.8,
@@ -342,19 +383,21 @@ class _SidebarActionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return GestureDetector(
+    final ui    = theme.extension<RadianUiTheme>()!;
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 16, color: VernierColors.inkFaint),
+            Icon(icon, size: 16, color: ui.textFaint),
             const SizedBox(height: 3),
             Text(
               label,
               style: theme.textTheme.bodyMedium!.copyWith(
-                color: VernierColors.inkFaint,
+                color: ui.textFaint,
                 fontSize: 7.5,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.8,
@@ -371,46 +414,55 @@ class _SidebarActionItem extends StatelessWidget {
 // Shared floating-card-styled dialog used by both the Tools and Settings
 // sidebar actions.
 
-void _showAppModal(BuildContext context, {required String title, required Widget child}) {
+void _showAppModal(BuildContext context,
+    {required String title, required Widget child, double maxWidth = 380}) {
   showDialog(
     context: context,
-    barrierColor: const Color(0x59212B3B), // VernierColors.ink @ ~35%
+    barrierColor: Colors.black.withOpacity(0.45),
     builder: (dialogContext) {
       final theme = Theme.of(dialogContext);
+      final ui    = theme.extension<RadianUiTheme>()!;
+      final maxDialogHeight = MediaQuery.of(dialogContext).size.height * 0.8;
       return Dialog(
         backgroundColor: Colors.transparent,
         insetPadding: const EdgeInsets.all(24),
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 380),
-          child: Container(
-            decoration: BoxDecoration(
-              color: VernierColors.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: VernierColors.lineStrong),
-              boxShadow: const [
-                BoxShadow(color: Color(0x261C3A5E), blurRadius: 24, offset: Offset(0, 12)),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxDialogHeight),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16), // rounded-2xl — matches website dropdown/card radius
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ui.surface.withOpacity(0.92), // mirrors website's --surface-glass
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: ui.border),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.24), blurRadius: 24, offset: const Offset(0, 12)),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: theme.textTheme.titleLarge),
-                      IconButton(
-                        icon: const Icon(Icons.close, size: 18),
-                        color: VernierColors.inkSoft,
-                        onPressed: () => Navigator.of(dialogContext).pop(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text(title, style: theme.textTheme.titleLarge)),
+                          IconButton(
+                            icon: const Icon(Icons.close, size: 18),
+                            color: ui.textSecondary,
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 12),
+                      Flexible(child: SingleChildScrollView(child: child)),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  child,
-                ],
+                ),
               ),
             ),
           ),
@@ -418,6 +470,36 @@ void _showAppModal(BuildContext context, {required String title, required Widget
       );
     },
   );
+}
+
+// ── Waitlist Modal ───────────────────────────────────────────────────────────
+// Native port of the website's WaitlistSection — posts to the live
+// /api/waitlist endpoint. See screens/waitlist_section.dart + services/waitlist_api.dart.
+
+class _WaitlistModalContent extends StatelessWidget {
+  const _WaitlistModalContent();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ui = theme.extension<RadianUiTheme>()!;
+    return SizedBox(
+      width: 320,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Get notified when the v1 hardware ships — we'll email you, nothing else.",
+            style: theme.textTheme.bodyMedium!
+                .copyWith(color: ui.textSecondary, fontSize: 12.5, height: 1.4),
+          ),
+          const SizedBox(height: 18),
+          const WaitlistSection(),
+        ],
+      ),
+    );
+  }
 }
 
 /// Shared label/value row used inside the Tools and Settings modals.
@@ -429,13 +511,14 @@ class _InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     final valueStyle = mono
-        ? theme.textTheme.displayMedium!.copyWith(color: VernierColors.navy, fontSize: 13, fontWeight: FontWeight.w600)
-        : theme.textTheme.bodyMedium!.copyWith(color: VernierColors.navy, fontSize: 13, fontWeight: FontWeight.w600);
+        ? theme.textTheme.displayMedium!.copyWith(color: theme.colorScheme.primary, fontSize: 13, fontWeight: FontWeight.w600)
+        : theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary, fontSize: 13, fontWeight: FontWeight.w600);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkSoft, fontSize: 11)),
+        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: ui.textSecondary, fontSize: 11)),
         Text(value, style: valueStyle),
       ],
     );
@@ -498,6 +581,7 @@ class _SettingsModalContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme    = Theme.of(context);
+    final ui       = theme.extension<RadianUiTheme>()!;
     final bleState = ref.watch(bleStateProvider).valueOrNull ?? BLEState.idle;
 
     late final String statusLabel;
@@ -505,23 +589,23 @@ class _SettingsModalContent extends ConsumerWidget {
     switch (bleState) {
       case BLEState.connected:
         statusLabel = 'Connected';
-        statusColor = VernierColors.teal;
+        statusColor = ui.success;
         break;
       case BLEState.scanning:
         statusLabel = 'Scanning';
-        statusColor = VernierColors.amber;
+        statusColor = ui.warning;
         break;
       case BLEState.connecting:
         statusLabel = 'Connecting';
-        statusColor = VernierColors.amber;
+        statusColor = ui.warning;
         break;
       case BLEState.error:
         statusLabel = 'Error';
-        statusColor = VernierColors.coral;
+        statusColor = theme.colorScheme.error;
         break;
       default:
         statusLabel = 'Not connected';
-        statusColor = VernierColors.inkFaint;
+        statusColor = ui.textFaint;
     }
 
     return SizedBox(
@@ -540,7 +624,7 @@ class _SettingsModalContent extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
               Text(statusLabel, style: theme.textTheme.bodyMedium!.copyWith(
-                  color: VernierColors.ink, fontSize: 13, fontWeight: FontWeight.w600)),
+                  color: ui.textPrimary, fontSize: 13, fontWeight: FontWeight.w600)),
             ],
           ),
           const SizedBox(height: 16),
@@ -565,7 +649,7 @@ class _SettingsModalContent extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Container(height: 1, color: VernierColors.line),
+          Container(height: 1, color: ui.divider),
           const SizedBox(height: 20),
           const PanelHeader(label: 'ABOUT', icon: '⋯'),
           const SizedBox(height: 12),
@@ -581,10 +665,13 @@ class _SettingsModalContent extends ConsumerWidget {
 // ── Background Grid Painter ───────────────────────────────────────────────────
 
 class _CanvasBackgroundPainter extends CustomPainter {
+  final Color lineColor;
+  const _CanvasBackgroundPainter(this.lineColor);
+
   @override
   void paint(Canvas canvas, Size size) {
     final linePaint = Paint()
-      ..color = VernierColors.line
+      ..color = lineColor
       ..strokeWidth = 1.0;
 
     const double lineSpacing = 26.0;
@@ -598,5 +685,6 @@ class _CanvasBackgroundPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _CanvasBackgroundPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _CanvasBackgroundPainter oldDelegate) =>
+      oldDelegate.lineColor != lineColor;
 }

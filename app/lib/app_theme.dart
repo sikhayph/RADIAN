@@ -44,6 +44,77 @@ class ObsidianColors {
   static const error        = Color(0xFFF85149);
 }
 
+// ── UI Theme Extension ────────────────────────────────────────────────────────
+// Semantic surface/text/accent tokens — mirrors the CSS custom-property tokens
+// consumed by components/ui/*.tsx on the website (website/app/globals.css),
+// so screens read `theme.extension<RadianUiTheme>()!.X` instead of hardcoding
+// a specific palette (VernierColors/ObsidianColors) and losing theme-awareness.
+
+class RadianUiTheme extends ThemeExtension<RadianUiTheme> {
+  final Color surface;
+  final Color textPrimary;
+  final Color textSecondary;
+  final Color textFaint;
+  final Color divider;
+  final Color border;
+  final Color success;
+  final Color warning;
+  final Color accentSoft;
+
+  const RadianUiTheme({
+    required this.surface,
+    required this.textPrimary,
+    required this.textSecondary,
+    required this.textFaint,
+    required this.divider,
+    required this.border,
+    required this.success,
+    required this.warning,
+    required this.accentSoft,
+  });
+
+  @override
+  RadianUiTheme copyWith({
+    Color? surface,
+    Color? textPrimary,
+    Color? textSecondary,
+    Color? textFaint,
+    Color? divider,
+    Color? border,
+    Color? success,
+    Color? warning,
+    Color? accentSoft,
+  }) {
+    return RadianUiTheme(
+      surface:       surface       ?? this.surface,
+      textPrimary:   textPrimary   ?? this.textPrimary,
+      textSecondary: textSecondary ?? this.textSecondary,
+      textFaint:     textFaint     ?? this.textFaint,
+      divider:       divider       ?? this.divider,
+      border:        border        ?? this.border,
+      success:       success       ?? this.success,
+      warning:       warning       ?? this.warning,
+      accentSoft:    accentSoft    ?? this.accentSoft,
+    );
+  }
+
+  @override
+  RadianUiTheme lerp(ThemeExtension<RadianUiTheme>? other, double t) {
+    if (other is! RadianUiTheme) return this;
+    return RadianUiTheme(
+      surface:       Color.lerp(surface,       other.surface,       t)!,
+      textPrimary:   Color.lerp(textPrimary,   other.textPrimary,   t)!,
+      textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
+      textFaint:     Color.lerp(textFaint,     other.textFaint,     t)!,
+      divider:       Color.lerp(divider,       other.divider,       t)!,
+      border:        Color.lerp(border,        other.border,        t)!,
+      success:       Color.lerp(success,       other.success,       t)!,
+      warning:       Color.lerp(warning,       other.warning,       t)!,
+      accentSoft:    Color.lerp(accentSoft,    other.accentSoft,    t)!,
+    );
+  }
+}
+
 // ── Canvas Theme Extension ────────────────────────────────────────────────────
 // Custom extension so widgets can access RADIAN-specific colors
 // via Theme.of(context).extension<RadianCanvasTheme>()
@@ -144,8 +215,9 @@ class RadianThemes {
     cardTheme: const CardThemeData(
       color:        ObsidianColors.surface,
       elevation:    0,
+      margin:       EdgeInsets.zero,
       shape:        RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(14)),
+        borderRadius: BorderRadius.all(Radius.circular(16)), // rounded-2xl — website card radius
         side:         BorderSide(color: ObsidianColors.border),
       ),
     ),
@@ -155,13 +227,12 @@ class RadianThemes {
       thickness: 1,
     ),
 
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: ObsidianColors.primary,
-        foregroundColor: ObsidianColors.background,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        textStyle: const TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
-      ),
+    elevatedButtonTheme: _elevatedButtonTheme(ObsidianColors.primary, ObsidianColors.background),
+    outlinedButtonTheme: _outlinedButtonTheme(ObsidianColors.border, ObsidianColors.textPrimary),
+    textButtonTheme:     _textButtonTheme(ObsidianColors.primary),
+    inputDecorationTheme: _inputDecorationTheme(
+      border: ObsidianColors.border, focused: ObsidianColors.primary,
+      fill: ObsidianColors.background, hint: ObsidianColors.textMuted,
     ),
 
     extensions: const [
@@ -173,6 +244,17 @@ class RadianThemes {
         negativeColor:  ObsidianColors.negative,
         canvasBorder:   ObsidianColors.border,
         gridLine:       Color(0x1A8B949E), // rgba(139,148,158,0.10)
+      ),
+      RadianUiTheme(
+        surface:       ObsidianColors.surface,
+        textPrimary:   ObsidianColors.textPrimary,
+        textSecondary: ObsidianColors.textMuted,
+        textFaint:     Color(0xB88B949E), // ObsidianColors.textMuted @ ~72%
+        divider:       Color(0x9930363D), // ObsidianColors.border @ ~60%
+        border:        ObsidianColors.border,
+        success:       ObsidianColors.secondary,
+        warning:       ObsidianColors.resultant,
+        accentSoft:    Color(0x8058A6FF), // ObsidianColors.primary @ ~50%
       ),
     ],
   );
@@ -214,8 +296,9 @@ class RadianThemes {
     cardTheme: const CardThemeData(
       color:        VernierColors.white,
       elevation:    0,
+      margin:       EdgeInsets.zero,
       shape:        RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(14)),
+        borderRadius: BorderRadius.all(Radius.circular(16)), // rounded-2xl — website card radius
         side:         BorderSide(color: VernierColors.line),
       ),
     ),
@@ -225,13 +308,12 @@ class RadianThemes {
       thickness: 1,
     ),
 
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: VernierColors.navy,
-        foregroundColor: VernierColors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        textStyle: const TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
-      ),
+    elevatedButtonTheme: _elevatedButtonTheme(VernierColors.navy, VernierColors.white),
+    outlinedButtonTheme: _outlinedButtonTheme(VernierColors.lineStrong, VernierColors.ink),
+    textButtonTheme:     _textButtonTheme(VernierColors.navy),
+    inputDecorationTheme: _inputDecorationTheme(
+      border: VernierColors.lineStrong, focused: VernierColors.navy,
+      fill: VernierColors.bg, hint: VernierColors.inkFaint,
     ),
 
     extensions: const [
@@ -244,8 +326,82 @@ class RadianThemes {
         canvasBorder:   VernierColors.navySoft,
         gridLine:       VernierColors.line,
       ),
+      RadianUiTheme(
+        surface:       VernierColors.white,
+        textPrimary:   VernierColors.ink,
+        textSecondary: VernierColors.inkSoft,
+        textFaint:     VernierColors.inkFaint,
+        divider:       VernierColors.line,
+        border:        VernierColors.lineStrong,
+        success:       VernierColors.teal,
+        warning:       VernierColors.amber,
+        accentSoft:    VernierColors.navySoft,
+      ),
     ],
   );
+
+  // ── Shared Button / Input Shapes ──────────────────────────────────────────
+  // Radius (12 = rounded-xl) and padding mirror the website's CTA/input classes
+  // (px-8 py-3.5 for primary buttons, px-4 py-3 for inputs — see Hero.tsx,
+  // WaitlistForm.tsx). Hover/press feedback comes from Material's built-in
+  // ink overlay on ElevatedButton/OutlinedButton/InkWell.
+
+  static ElevatedButtonThemeData _elevatedButtonTheme(Color bg, Color fg) {
+    return ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: bg,
+        foregroundColor: fg,
+        elevation: 0,
+        minimumSize: const Size(0, 44),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
+  static OutlinedButtonThemeData _outlinedButtonTheme(Color border, Color fg) {
+    return OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: fg,
+        side: BorderSide(color: border),
+        minimumSize: const Size(0, 44),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
+  static TextButtonThemeData _textButtonTheme(Color fg) {
+    return TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: fg,
+        minimumSize: const Size(0, 44),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
+  static InputDecorationTheme _inputDecorationTheme({
+    required Color border,
+    required Color focused,
+    required Color fill,
+    required Color hint,
+  }) {
+    final radius = BorderRadius.circular(12);
+    return InputDecorationTheme(
+      filled: true,
+      fillColor: fill,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      hintStyle: TextStyle(fontFamily: 'Inter', color: hint, fontSize: 14),
+      border: OutlineInputBorder(borderRadius: radius, borderSide: BorderSide(color: border)),
+      enabledBorder: OutlineInputBorder(borderRadius: radius, borderSide: BorderSide(color: border)),
+      focusedBorder: OutlineInputBorder(borderRadius: radius, borderSide: BorderSide(color: focused, width: 1.5)),
+    );
+  }
 
   // ── Shared Text Theme ─────────────────────────────────────────────────────
   static TextTheme _buildTextTheme(Color primary, Color muted) {

@@ -71,7 +71,8 @@ class Mode3Screen extends ConsumerWidget {
         FloatingFormulaBar(
           formula: "v' = R(θ) · v",
           right: Text('SNAPPED TO: ${theta.toStringAsFixed(1)}°',
-            style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5)),
+            style: theme.textTheme.displayMedium!.copyWith(
+                color: theme.extension<RadianUiTheme>()!.success, fontSize: 10.5)),
         ),
       ],
     );
@@ -88,8 +89,10 @@ class _DataPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
+    final canvas = theme.extension<RadianCanvasTheme>()!;
     final matStyle = theme.textTheme.displayMedium!.copyWith(
-      color: VernierColors.navy, fontSize: 13, fontWeight: FontWeight.w500,
+      color: theme.colorScheme.primary, fontSize: 13, fontWeight: FontWeight.w500,
     );
 
     return Column(
@@ -101,11 +104,11 @@ class _DataPanel extends StatelessWidget {
               const PanelHeader(label: "TRANSFORMED v'(x, y)", icon: '⋯'),
               const SizedBox(height: 8),
               Text('( ${vxp.toStringAsFixed(2)}, ${vyp.toStringAsFixed(2)} )',
-                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.coral,
+                style: theme.textTheme.displayMedium!.copyWith(color: canvas.arm1Color,
                     fontSize: 20, fontWeight: FontWeight.w600)),
               const SizedBox(height: 4),
               Text('∠ ${theta.toStringAsFixed(1)}° ROTATION',
-                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkSoft, fontSize: 11)),
+                style: theme.textTheme.displayMedium!.copyWith(color: ui.textSecondary, fontSize: 11)),
             ],
           ),
         ),
@@ -121,10 +124,10 @@ class _DataPanel extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(width: 4, height: 38,
-                      decoration: const BoxDecoration(border: Border(
-                        left:   BorderSide(color: VernierColors.inkSoft, width: 1.5),
-                        top:    BorderSide(color: VernierColors.inkSoft, width: 1.5),
-                        bottom: BorderSide(color: VernierColors.inkSoft, width: 1.5),
+                      decoration: BoxDecoration(border: Border(
+                        left:   BorderSide(color: ui.textSecondary, width: 1.5),
+                        top:    BorderSide(color: ui.textSecondary, width: 1.5),
+                        bottom: BorderSide(color: ui.textSecondary, width: 1.5),
                       ))),
                     const SizedBox(width: 8),
                     Column(mainAxisSize: MainAxisSize.min, children: [
@@ -140,10 +143,10 @@ class _DataPanel extends StatelessWidget {
                     ]),
                     const SizedBox(width: 8),
                     Container(width: 4, height: 38,
-                      decoration: const BoxDecoration(border: Border(
-                        right:  BorderSide(color: VernierColors.inkSoft, width: 1.5),
-                        top:    BorderSide(color: VernierColors.inkSoft, width: 1.5),
-                        bottom: BorderSide(color: VernierColors.inkSoft, width: 1.5),
+                      decoration: BoxDecoration(border: Border(
+                        right:  BorderSide(color: ui.textSecondary, width: 1.5),
+                        top:    BorderSide(color: ui.textSecondary, width: 1.5),
+                        bottom: BorderSide(color: ui.textSecondary, width: 1.5),
                       ))),
                   ],
                 ),
@@ -159,7 +162,7 @@ class _DataPanel extends StatelessWidget {
               const PanelHeader(label: 'ORIGINAL v(x, y)', icon: '⋯'),
               const SizedBox(height: 8),
               Text('( ${vx.toStringAsFixed(2)}, ${vy.toStringAsFixed(2)} )',
-                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal,
+                style: theme.textTheme.displayMedium!.copyWith(color: canvas.arm2Color,
                     fontSize: 20, fontWeight: FontWeight.w600)),
             ],
           ),

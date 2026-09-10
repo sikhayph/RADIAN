@@ -14,6 +14,7 @@ import 'screens/mode1_screen.dart';
 import 'screens/mode2_screen.dart';
 import 'screens/mode3_screen.dart';
 import 'screens/mode4_screen.dart';
+import 'screens/calculator_screen.dart';
 import 'screens/app_shell.dart';
 // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 // Backwards-compat shim: Sikhay's main.dart declared themeProvider as a
@@ -75,6 +76,11 @@ final _router = GoRouter(
           path: '/mode/4',
           name: 'mode4',
           builder: (context, state) => const Mode4Screen(),
+        ),
+        GoRoute(
+          path: '/mode/5',
+          name: 'mode5',
+          builder: (context, state) => const CalculatorScreen(),
         ),
       ],
     ),

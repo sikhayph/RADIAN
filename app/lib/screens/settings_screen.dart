@@ -43,6 +43,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme      = Theme.of(context);
+    final ui         = theme.extension<RadianUiTheme>()!;
     final bleState   = ref.watch(scanFlowStateProvider);
     final themeMode  = ref.watch(themeNotifierProvider);
 
@@ -90,7 +91,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               labelText: 'Device nickname',
               hintText: 'My RADIAN',
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12), // rounded-xl — matches website input radius
               ),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.check),
@@ -120,7 +121,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     width: 10, height: 10,
                     decoration: BoxDecoration(
                       color: bleState == BLEState.connected
-                          ? Colors.green
+                          ? ui.success
                           : theme.colorScheme.outline,
                       shape: BoxShape.circle,
                     ),

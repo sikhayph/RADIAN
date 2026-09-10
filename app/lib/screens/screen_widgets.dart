@@ -16,14 +16,15 @@ class ModeTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final canvas = theme.extension<RadianCanvasTheme>()!;
     return Padding(
       padding: const EdgeInsets.only(left: 24, top: 20, right: 24, bottom: 8),
       child: Row(
         children: [
-          const Text('✛', style: TextStyle(color: VernierColors.navySoft, fontSize: 13, fontWeight: FontWeight.w600)),
+          Text('✛', style: TextStyle(color: canvas.arm1Color, fontSize: 13, fontWeight: FontWeight.w600)),
           const SizedBox(width: 8),
           Text('$modeLabel  •  $title',
-            style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.navySoft, fontSize: 10,
+            style: theme.textTheme.bodyMedium!.copyWith(color: theme.colorScheme.primary, fontSize: 10,
                 fontWeight: FontWeight.w600, letterSpacing: 1.4)),
         ],
       ),
@@ -38,16 +39,15 @@ class FloatingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: VernierColors.white,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: VernierColors.lineStrong),
-        boxShadow: const [
-          BoxShadow(color: Color(0x081C3A5E), blurRadius: 8, offset: Offset(0, 4)),
-        ],
+        color: ui.surface,
+        borderRadius: BorderRadius.circular(16), // rounded-2xl — matches website FAQ/mode cards
+        border: Border.all(color: ui.border),
       ),
       child: child,
     );
@@ -63,19 +63,20 @@ class FloatingFormulaBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 8, 20, 20),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
-        color: VernierColors.tealWash,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: VernierColors.line),
+        color: ui.success.withOpacity(0.10),
+        borderRadius: BorderRadius.circular(12), // rounded-xl — matches website pill/input radius
+        border: Border.all(color: ui.success.withOpacity(0.35)),
       ),
       child: Row(
         children: [
-          const Text('✦', style: TextStyle(color: VernierColors.teal, fontSize: 10)),
+          Text('✦', style: TextStyle(color: ui.success, fontSize: 10)),
           const SizedBox(width: 8),
-          Text(formula, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.teal,
+          Text(formula, style: theme.textTheme.bodyMedium!.copyWith(color: ui.success,
               fontSize: 10.5)),
           const Spacer(),
           if (right != null) right!,
@@ -93,12 +94,13 @@ class PanelHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 9,
+        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: ui.textFaint, fontSize: 9,
             fontWeight: FontWeight.w700, letterSpacing: 1.6)),
-        Text(icon, style: const TextStyle(color: VernierColors.inkFaint, fontSize: 10)),
+        Text(icon, style: TextStyle(color: ui.textFaint, fontSize: 10)),
       ],
     );
   }
@@ -112,7 +114,8 @@ class FieldLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Text(text, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 9,
+    final ui    = theme.extension<RadianUiTheme>()!;
+    return Text(text, style: theme.textTheme.bodyMedium!.copyWith(color: ui.textFaint, fontSize: 9,
         fontWeight: FontWeight.w600, letterSpacing: 1.5));
   }
 }

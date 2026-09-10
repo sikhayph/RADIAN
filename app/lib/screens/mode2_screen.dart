@@ -59,7 +59,8 @@ class Mode2Screen extends ConsumerWidget {
         FloatingFormulaBar(
           formula: 'R = v1 + v2  ·  |R| = √(Rx² + Ry²)',
           right: Text('SNAPPED TO: ${a1.toStringAsFixed(1)}°',
-            style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5)),
+            style: theme.textTheme.displayMedium!.copyWith(
+                color: theme.extension<RadianUiTheme>()!.success, fontSize: 10.5)),
         ),
       ],
     );
@@ -73,6 +74,8 @@ class _DataPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
+    final canvas = theme.extension<RadianCanvasTheme>()!;
     return Column(
       children: [
         FloatingCard(
@@ -84,13 +87,13 @@ class _DataPanel extends StatelessWidget {
               _VectorRow(
                 label: 'v1 — Arm 1',
                 sublabel: '[ ${a1.toStringAsFixed(3)}, 0.000 ]',
-                color: VernierColors.coral,
+                color: canvas.arm1Color,
               ),
               const SizedBox(height: 10),
               _VectorRow(
                 label: 'v2 — Arm 2',
                 sublabel: a2 == 0.0 ? '[ 0.000, 1.000 ]' : '[ 0.000, ${a2.toStringAsFixed(3)} ]',
-                color: VernierColors.teal,
+                color: canvas.arm2Color,
               ),
             ],
           ),
@@ -103,14 +106,14 @@ class _DataPanel extends StatelessWidget {
               const PanelHeader(label: 'RESULTANT |R|', icon: '⋯'),
               const SizedBox(height: 8),
               Text(rmag.toStringAsFixed(2),
-                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.amber,
+                style: theme.textTheme.displayMedium!.copyWith(color: canvas.resultantColor,
                     fontSize: 28, fontWeight: FontWeight.w600)),
               const SizedBox(height: 4),
               Text('∠ ${rang.toStringAsFixed(1)}°',
-                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkSoft, fontSize: 13)),
+                style: theme.textTheme.displayMedium!.copyWith(color: ui.textSecondary, fontSize: 13)),
               const SizedBox(height: 4),
               Text(a2 == 0.0 ? 'not detected' : '${a2.toStringAsFixed(1)}°',
-                style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 11)),
+                style: theme.textTheme.displayMedium!.copyWith(color: ui.textFaint, fontSize: 11)),
             ],
           ),
         ),
@@ -127,6 +130,7 @@ class _VectorRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -139,10 +143,10 @@ class _VectorRow extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkSoft,
+            Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: ui.textSecondary,
                 fontSize: 10)),
             const SizedBox(height: 2),
-            Text(sublabel, style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkFaint,
+            Text(sublabel, style: theme.textTheme.displayMedium!.copyWith(color: ui.textFaint,
                 fontSize: 10)),
           ],
         ),

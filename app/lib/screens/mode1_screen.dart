@@ -84,6 +84,7 @@ class _DataPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -92,14 +93,14 @@ class _DataPanel extends StatelessWidget {
         const FieldLabel('ANGLE'),
         const SizedBox(height: 4),
         Text('${deg.toStringAsFixed(1)}°',
-          style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.navy,
+          style: theme.textTheme.displayMedium!.copyWith(color: theme.colorScheme.primary,
               fontSize: 28, fontWeight: FontWeight.w600)),
         const SizedBox(height: 2),
         Text('${rad.toStringAsFixed(4)} rad',
-          style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.inkSoft, fontSize: 13)),
+          style: theme.textTheme.displayMedium!.copyWith(color: ui.textSecondary, fontSize: 13)),
 
         const SizedBox(height: 20),
-        Container(height: 1, color: VernierColors.line),
+        Container(height: 1, color: ui.divider),
         const SizedBox(height: 20),
 
         const FieldLabel('TRIGONOMETRY'),
@@ -121,12 +122,13 @@ class _TrigRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkSoft,
+        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: ui.textSecondary,
             fontSize: 11)),
-        Text(value, style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.navy,
+        Text(value, style: theme.textTheme.displayMedium!.copyWith(color: theme.colorScheme.primary,
             fontSize: 13, fontWeight: FontWeight.w600)),
       ],
     );
@@ -149,7 +151,8 @@ class _PiFractionHint extends StatelessWidget {
     final fraction = _piMap[nearest];
     if (fraction == null) return const SizedBox.shrink();
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return Text('${deg.round()}° = $fraction',
-      style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5));
+      style: theme.textTheme.displayMedium!.copyWith(color: ui.success, fontSize: 10.5));
   }
 }

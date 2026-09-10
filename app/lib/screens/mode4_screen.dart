@@ -65,7 +65,8 @@ class Mode4Screen extends ConsumerWidget {
         FloatingFormulaBar(
           formula: '(N-2) × 180° = ${(n - 2) * 180}°  ·  sum of interior angles',
           right: Text('SNAPPED TO: ${armAngle.toStringAsFixed(1)}°',
-            style: theme.textTheme.displayMedium!.copyWith(color: VernierColors.teal, fontSize: 10.5)),
+            style: theme.textTheme.displayMedium!.copyWith(
+                color: theme.extension<RadianUiTheme>()!.success, fontSize: 10.5)),
         ),
       ],
     );
@@ -82,20 +83,23 @@ class _DataPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
+    final canvas = theme.extension<RadianCanvasTheme>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const PanelHeader(label: 'POLYGON', icon: '⋯'),
         const SizedBox(height: 16),
-        _StatRow(label: 'SIDES (N)', value: '$n', color: VernierColors.navy, large: true),
+        _StatRow(label: 'SIDES (N)', value: '$n', color: theme.colorScheme.primary, large: true),
         const SizedBox(height: 16),
-        Container(height: 1, color: VernierColors.line),
+        Container(height: 1, color: ui.divider),
         const SizedBox(height: 16),
-        _StatRow(label: 'INTERIOR ANGLE', value: '${interior.toStringAsFixed(1)}°', color: VernierColors.navy),
+        _StatRow(label: 'INTERIOR ANGLE', value: '${interior.toStringAsFixed(1)}°', color: theme.colorScheme.primary),
         const SizedBox(height: 14),
-        _StatRow(label: 'EXTERIOR ANGLE', value: '${exterior.toStringAsFixed(1)}°', color: VernierColors.navy),
+        _StatRow(label: 'EXTERIOR ANGLE', value: '${exterior.toStringAsFixed(1)}°', color: theme.colorScheme.primary),
         const SizedBox(height: 14),
-        _StatRow(label: 'CENTRAL ANGLE', value: '${central.toStringAsFixed(1)}°', color: VernierColors.amber),
+        _StatRow(label: 'CENTRAL ANGLE', value: '${central.toStringAsFixed(1)}°', color: canvas.resultantColor),
       ],
     );
   }
@@ -126,10 +130,11 @@ class _StatRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ui    = theme.extension<RadianUiTheme>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: VernierColors.inkFaint, fontSize: 9,
+        Text(label, style: theme.textTheme.bodyMedium!.copyWith(color: ui.textFaint, fontSize: 9,
             fontWeight: FontWeight.w600, letterSpacing: 1.5)),
         const SizedBox(height: 4),
         Text(value, style: theme.textTheme.displayMedium!.copyWith(color: color,
